@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "angular": "jspm:angular@^1.3.0"
+  },
+  "shim": {
+    "angular-youtube-mb": {
+      "deps": [
+        "angular"
+      ]
+    }
+  }
+}

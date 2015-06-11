@@ -1,0 +1,109 @@
+.ag-bg-video-wrapper, .ag-bg-user-select, .ag-start-screen, .ag-about-screen, .ag-about-screen:before, .ag-about-screen:after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0; }
+
+.menu-btn {
+  box-sizing: border-box; }
+
+body {
+  margin: 0; }
+
+html, body {
+  background: #111;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #f1f1f1; }
+
+button {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  cursor: default;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  white-space: pre; }
+
+.menu-btn {
+  font-size: 1.5em;
+  padding: 1rem 5rem;
+  border: 1px solid #f1f1f1;
+  text-transform: uppercase; }
+  .menu-btn + .menu-btn {
+    margin-top: 1rem; }
+  .menu-btn:active, .menu-btn:hover, .menu-btn--active {
+    background: #f1f1f1;
+    color: #111;
+    font-weight: 900; }
+  .menu-btn:focus {
+    border-width: 3px;
+    font-weight: 900; }
+
+.ag-bg-video-wrapper {
+  z-index: -99;
+  bottom: 3px; }
+
+.ag-bg-user-select {
+  z-index: 0;
+  background: transparent; }
+
+.ag-start-screen {
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(17, 17, 17, 0.6);
+  font-family: "Martel Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  .ag-start-screen__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    max-height: 40rem; }
+  .ag-start-screen__title {
+    font-weight: 900;
+    font-style: italic;
+    padding: 1rem;
+    border-bottom: 1px solid #f1f1f1; }
+  .ag-start-screen__menu-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+
+.ag-about-screen {
+  display: flex;
+  z-index: 1; }
+  .ag-about-screen:before, .ag-about-screen:after {
+    z-index: -1;
+    content: ''; }
+  .ag-about-screen:before {
+    right: 50%;
+    background: rgba(26, 118, 193, 0.6); }
+  .ag-about-screen:after {
+    left: 50%;
+    background: rgba(202, 53, 47, 0.6); }
+  .ag-about-screen__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    padding: 2rem;
+    margin: 2rem;
+    border: 1px #f1f1f1 solid; }
+  .ag-about-screen__back-link {
+    color: inherit;
+    align-self: flex-end; }
+
+/**
+
+ Idea of dual split ping pong color here
+
+
+
+**/

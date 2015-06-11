@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "angular": "jspm:angular@^1.4.0"
+  },
+  "shim": {
+    "ngNewRouter": {
+      "deps": [
+        "angular"
+      ]
+    }
+  }
+}

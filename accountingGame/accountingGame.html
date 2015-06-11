@@ -1,0 +1,24 @@
+<div>
+  <div class="ag-bg-video-wrapper">
+   <youtube-video
+    video-id="accountingGame.youtubeVideo"
+    player="accountingGame.videoPlayer"
+    player-vars="{
+      autohide: 1,
+      autoplay: 1,
+      showinfo: 0
+    }"
+    player-height="'100%'"
+    player-width="'100%'"
+   ></youtube-video>
+  </div>
+
+  <!--
+   FOLLOWING https://developers.google.com/youtube/iframe_api_reference?hl=fr#Mobile_considerations
+   <video> can't autoplay on mobile so we will wait for a user input to display th ui
+  -->
+  <div class="ag-bg-user-select" ng-if="accountingGame.videoIsPlaying">
+    <ui-view></ui-view>
+  </div>
+
+</div>

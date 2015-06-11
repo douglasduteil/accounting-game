@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8"/>
+  <title>Accounting Game 0.0.0</title>
+  <link data-require="bootstrap-css@*"
+   data-semver="3.3.1"
+   rel="stylesheet"
+   href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+  <script>
+    document.write('<base href="' + document.location + '" />');
+  </script>
+  <link href="accountingGame/accountingGame.css"
+   rel="stylesheet"
+   type="text/css"/>
+</head>
+
+<body>
+<!--
+=====================================================
+
+
+
+
+
+
+
+
+=====================================================-->
+<accounting-game>
+  Loading...
+</accounting-game>
+<!--
+=====================================================
+
+
+
+
+
+
+
+
+=====================================================-->
+<script src="jspm_packages/es6-module-loader.js"></script>
+<script src="jspm_packages/system.js"></script>
+<script src="config.js"></script>
+<script>
+  ;
+  (function () {
+    System.import('./accountingGame')
+     .then(function (accountingGameModule) {
+       angular.bootstrap(document, [accountingGameModule['default'].name]);
+     });
+  }());
+</script>
+<!--
+=====================================================
+
+
+
+
+
+
+
+
+=====================================================-->
+<script async="" defer="" src="https://www.youtube.com/iframe_api"></script>
+<script async="" defer="" type="text/javascript">
+
+  WebFontConfig = {
+    google: {
+      families: [
+        'Martel Sans:400,900'
+      ]
+    }
+  };
+  (function () {
+    var wf = document.createElement('script');
+    wf.src = ('https:' === document.location.protocol ? 'https' : 'http') +
+     '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+  })();
+</script>
+<!--
+=====================================================
+
+
+
+
+
+
+
+
+=====================================================-->
+</body>
+
+</html>

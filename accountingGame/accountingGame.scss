@@ -1,0 +1,190 @@
+//
+//
+//
+
+// =============================================================================
+// Settings
+// =============================================================================
+
+// Colors
+
+$black: #111;
+$denim: hsl(207, 76%, 43%);
+$persian-red: hsl(2, 62%, 49%);
+$white: #f1f1f1;
+
+//
+
+$primary-color: $denim;
+$secondary-color: $persian-red;
+
+// Fonts
+
+$title-font-family: "Martel Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+// Other
+
+$screen-opacity: .4;
+
+// =============================================================================
+// Tools
+// =============================================================================
+
+%fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+%box-sizing {
+  box-sizing: border-box;
+}
+
+// =============================================================================
+// Generic
+// =============================================================================
+
+body {
+  margin: 0;
+}
+
+// =============================================================================
+// Base
+// =============================================================================
+
+html, body {
+  background: $black;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: $white;
+}
+
+button {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  cursor: default;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  white-space: pre;
+}
+
+// =============================================================================
+// Object
+// =============================================================================
+
+// =============================================================================
+// Components
+// =============================================================================
+
+.menu-btn {
+
+  @extend %box-sizing;
+
+  font-size: 1.5em;
+
+  padding: 1rem 5rem;
+  border: 1px solid $white;
+  text-transform: uppercase;
+
+  & + & {
+    margin-top: 1rem;
+  }
+
+  // Variants
+  // ===================
+
+  &:active,
+  &:hover,
+  &--active {
+    background: $white;
+    color: $black;
+    font-weight: 900;
+  }
+
+  &:focus {
+    border-width: 3px;
+    font-weight: 900;
+  }
+
+}
+
+// =============================================================================
+// Specific
+// =============================================================================
+
+.ag-bg-video-wrapper {
+  @extend %fill;
+  z-index: -99;
+  bottom: 3px;
+}
+
+//
+
+.ag-bg-user-select {
+  // Just to prevent the user to click on the youtube iframe
+  @extend %fill;
+  z-index: 0;
+  background: transparent;
+}
+
+//
+
+.ag-start-screen {
+
+  @extend %fill;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background: transparentize($black, $screen-opacity);
+
+  font-family: $title-font-family;
+
+  //
+  //
+  //
+
+  // ag-start-screen__content
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    flex: 1;
+
+    max-height: 40rem;
+  }
+
+  // ag-start-screen__title
+  &__title {
+    font-weight: 900;
+    font-style: italic;
+
+    padding: 1rem;
+    border-bottom: 1px solid $white;
+  }
+
+  // ag-start-screen__menu-buttons
+  &__menu-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@import "scenes/aboutScene/aboutScene";
+
+/**
+
+ Idea of dual split ping pong color here
+
+
+
+**/

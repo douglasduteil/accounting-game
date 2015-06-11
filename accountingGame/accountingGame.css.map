@@ -1,0 +1,8 @@
+{
+"version": 3,
+"mappings": "AAKA,oBAAK;EACH,QAAQ,EAAE,QAAQ;EAClB,GAAG,EAAE,CAAC;EACN,MAAM,EAAE,CAAC;EACT,IAAI,EAAE,CAAC;EACP,KAAK,EAAE,CAAC;;AAGV,oBAAoB;EAElB,MAAM,EAAE,GAAG",
+"sources": ["accountingGame/accountingGame.scss"],
+"sourcesContent": ["//\n//\n//\n\n\n%fill{\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n}\n\n.ag-bg-video-wrapper{\n  @extend %fill;\n  bottom: 2px;\n}\n"],
+"names": [],
+"file": "accountingGame.css"
+}

@@ -1,0 +1,55 @@
+//
+// About Scene
+// =============================================================================
+
+
+
+.ag-about-screen {
+
+  @extend %fill;
+  display: flex;
+  z-index: 1;
+
+  @at-root {
+    %ag-about-screen__background{
+      @extend %fill;
+      z-index: -1;
+      content: '';
+    }
+  }
+
+  // Pseudo-elements
+  &:before{
+    @extend %ag-about-screen__background;
+    right: 50%;
+    background: transparentize($primary-color, $screen-opacity);
+  }
+  &:after{
+    @extend %ag-about-screen__background;
+    left: 50%;
+    background: transparentize($secondary-color, $screen-opacity);
+  }
+
+  // ===========================================================================
+
+  // ag-about-screen__content
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    flex: 1;
+
+    padding: 2rem;
+    margin: 2rem;
+
+    border: 1px $white solid;
+  }
+
+  // ag-about-screen__back-button
+  &__back-link {
+    color: inherit;
+    align-self: flex-end;
+  }
+}

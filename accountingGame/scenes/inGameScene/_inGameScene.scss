@@ -1,0 +1,19 @@
+//
+// In Game Scene
+// =============================================================================
+
+.ag-in-game-screen {
+
+  @extend %fill;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+
+  // ===========================================================================
+
+  // ag-in-game-screen__back-button
+  &__back-button {
+    @extend .menu-btn;
+    align-self: flex-start;
+  }
+}

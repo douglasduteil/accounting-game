@@ -46,8 +46,10 @@
   }
 
   // ag-about-screen__back-button
-  &__back-link {
+  &__back-button {
+    @extend .menu-btn;
     color: inherit;
     align-self: flex-end;
+    font-size: .8rem;
   }
 }

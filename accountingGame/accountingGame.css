@@ -1,11 +1,11 @@
-.ag-bg-video-wrapper, .ag-bg-user-select, .ag-about-screen, .ag-about-screen:before, .ag-about-screen:after, .ag-menu-screen {
+.ag-bg-video-wrapper, .ag-bg-user-select, .ag-about-screen, .ag-about-screen:before, .ag-about-screen:after, .ag-in-game-screen, .ag-menu-screen {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0; }
 
-.menu-btn {
+.menu-btn, .ag-about-screen__back-button, .ag-in-game-screen__back-button {
   box-sizing: border-box; }
 
 body {
@@ -23,23 +23,35 @@ button {
   color: inherit;
   display: block;
   text-align: center;
-  text-decoration: none;
-  white-space: pre; }
+  text-decoration: none; }
 
-.menu-btn {
-  font-size: 1.5em;
-  padding: 1rem 5rem;
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.1; }
+
+.menu-btn, .ag-about-screen__back-button, .ag-in-game-screen__back-button {
+  font-family: "Fugaz One", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1em;
+  padding: 1em 2em;
   border: 1px solid #f1f1f1;
-  text-transform: uppercase; }
-  .menu-btn + .menu-btn {
+  text-transform: uppercase;
+  background: rgba(17, 17, 17, 0.2); }
+  .menu-btn + .menu-btn, .ag-about-screen__back-button + .menu-btn, .ag-in-game-screen__back-button + .menu-btn, .menu-btn + .ag-about-screen__back-button, .ag-about-screen__back-button + .ag-about-screen__back-button, .ag-in-game-screen__back-button + .ag-about-screen__back-button, .menu-btn + .ag-in-game-screen__back-button, .ag-about-screen__back-button + .ag-in-game-screen__back-button, .ag-in-game-screen__back-button + .ag-in-game-screen__back-button {
     margin-top: 1rem; }
-  .menu-btn:active, .menu-btn:hover, .menu-btn--active {
+  .menu-btn:active, .ag-about-screen__back-button:active, .ag-in-game-screen__back-button:active, .menu-btn:hover, .ag-about-screen__back-button:hover, .ag-in-game-screen__back-button:hover, .menu-btn--active {
     background: #f1f1f1;
     color: #111;
     font-weight: 900; }
-  .menu-btn:focus {
+  .menu-btn:focus, .ag-about-screen__back-button:focus, .ag-in-game-screen__back-button:focus {
     border-width: 3px;
     font-weight: 900; }
+
+.page-title, .ag-menu-screen__title {
+  font-family: "Fugaz One", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  font-size: 2rem;
+  padding: 1rem;
+  border-bottom: 1px solid #f1f1f1; }
 
 .ag-bg-video-wrapper {
   z-index: -99;
@@ -70,9 +82,17 @@ button {
     padding: 2rem;
     margin: 2rem;
     border: 1px #f1f1f1 solid; }
-  .ag-about-screen__back-link {
+  .ag-about-screen__back-button {
     color: inherit;
-    align-self: flex-end; }
+    align-self: flex-end;
+    font-size: .8rem; }
+
+.ag-in-game-screen {
+  display: flex;
+  flex-direction: column;
+  z-index: 1; }
+  .ag-in-game-screen__back-button {
+    align-self: flex-start; }
 
 .ag-menu-screen {
   z-index: 1;
@@ -80,21 +100,13 @@ button {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: rgba(17, 17, 17, 0.6);
-  font-family: "Martel Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  background: rgba(17, 17, 17, 0.6); }
   .ag-menu-screen__content {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
     flex: 1;
-    max-height: 40rem; }
-  .ag-menu-screen__title {
-    font-weight: 900;
-    font-style: italic;
-    padding: 1rem;
-    border-bottom: 1px solid #f1f1f1; }
+    max-height: 25rem; }
   .ag-menu-screen__menu-buttons {
     display: flex;
-    flex-direction: column;
-    align-items: center; }
+    flex-direction: column; }

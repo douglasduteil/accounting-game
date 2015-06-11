@@ -8,6 +8,7 @@ import 'angular-youtube-embed';
 import accountingGameHtmlTemplate from './accountingGame.html!text';
 
 import aboutSceneModule from './scenes/aboutScene/aboutScene.module';
+import inGameSceneModule from './scenes/inGameScene/inGameScene.module';
 import menuSceneModule from './scenes/menuScene/menuScene.module';
 
 ////
@@ -15,8 +16,9 @@ import menuSceneModule from './scenes/menuScene/menuScene.module';
 export default angular
   .module('accountingGame', [
     aboutSceneModule.name,
-    'ngAnimate',
+    inGameSceneModule.name,
     menuSceneModule.name,
+    'ngAnimate',
     'ui.router',
     'youtube-embed'
   ])
@@ -35,10 +37,13 @@ function accountingGameRoutesConfig($stateProvider, $urlRouterProvider) {
       url: '/',
       template: '<menu-scene></menu-scene>'
     })
-
     .state('about', {
       url: '/about',
       template: '<about-scene></about-scene>'
+    })
+    .state('inGame', {
+      url: '/game',
+      template: '<in-game-scene></in-game-scene>'
     })
   ;
 }
@@ -81,17 +86,15 @@ function AccountingGameController($scope, $window) {
 
     //window.addEventListener('blur', _onWindowBlur);
     //window.addEventListener('focus', _onWindowFocus);
-window.onblur = _onWindowBlur;
-window.onfocus = _onWindowFocus;
+    window.onblur = _onWindowBlur;
+    window.onfocus = _onWindowFocus;
 
-    function _onWindowBlur(){
-      accountingGame.videoIsPlaying = false;
+    function _onWindowBlur() {
+      //accountingGame.videoIsPlaying = false;
       player.pauseVideo();
-      console.log('pause');
     }
 
-    function _onWindowFocus(){
-      console.log('play');
+    function _onWindowFocus() {
       player.playVideo();
       waitForVideoReady(player);
     }

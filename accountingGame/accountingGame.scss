@@ -20,7 +20,7 @@ $secondary-color: $persian-red;
 
 // Fonts
 
-$title-font-family: "Martel Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$title-font-family: "Fugaz One", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
 // Other
 
@@ -68,7 +68,10 @@ button {
   display: block;
   text-align: center;
   text-decoration: none;
-  white-space: pre;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.1;
 }
 
 // =============================================================================
@@ -83,11 +86,14 @@ button {
 
   @extend %box-sizing;
 
-  font-size: 1.5em;
+  font-family: $title-font-family;
+  font-size: 1em;
 
-  padding: 1rem 5rem;
+  padding: 1em 2em;
   border: 1px solid $white;
   text-transform: uppercase;
+
+  background: transparentize($black, $screen-opacity * 2);
 
   & + & {
     margin-top: 1rem;
@@ -109,6 +115,16 @@ button {
     font-weight: 900;
   }
 
+}
+
+.page-title {
+  font-family: $title-font-family;
+  font-weight: 900;
+  font-style: italic;
+  font-size: 2rem;
+
+  padding: 1rem;
+  border-bottom: 1px solid $white;
 }
 
 // =============================================================================
@@ -133,4 +149,5 @@ button {
 //
 
 @import "scenes/aboutScene/aboutScene";
-@import "scenes/aboutScene/menuScene";
+@import "scenes/inGameScene/inGameScene";
+@import "scenes/menuScene/menuScene";

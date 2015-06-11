@@ -14,7 +14,6 @@
 
   background: transparentize($black, $screen-opacity);
 
-  font-family: $title-font-family;
 
   //
   //
@@ -25,26 +24,20 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
 
     flex: 1;
 
-    max-height: 40rem;
+    max-height: 25rem;
   }
 
   // ag-menu-screen__title
   &__title {
-    font-weight: 900;
-    font-style: italic;
-
-    padding: 1rem;
-    border-bottom: 1px solid $white;
+    @extend .page-title;
   }
 
   // ag-menu-screen__menu-buttons
   &__menu-buttons {
     display: flex;
     flex-direction: column;
-    align-items: center;
   }
 }

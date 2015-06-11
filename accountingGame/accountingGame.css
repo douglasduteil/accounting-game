@@ -1,4 +1,4 @@
-.ag-bg-video-wrapper, .ag-bg-user-select, .ag-start-screen, .ag-about-screen, .ag-about-screen:before, .ag-about-screen:after {
+.ag-bg-video-wrapper, .ag-bg-user-select, .ag-about-screen, .ag-about-screen:before, .ag-about-screen:after, .ag-menu-screen {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -21,8 +21,7 @@ button {
   border: 0;
   padding: 0;
   color: inherit;
-  cursor: default;
-  display: inline-block;
+  display: block;
   text-align: center;
   text-decoration: none;
   white-space: pre; }
@@ -50,31 +49,6 @@ button {
   z-index: 0;
   background: transparent; }
 
-.ag-start-screen {
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: rgba(17, 17, 17, 0.6);
-  font-family: "Martel Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; }
-  .ag-start-screen__content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    flex: 1;
-    max-height: 40rem; }
-  .ag-start-screen__title {
-    font-weight: 900;
-    font-style: italic;
-    padding: 1rem;
-    border-bottom: 1px solid #f1f1f1; }
-  .ag-start-screen__menu-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center; }
-
 .ag-about-screen {
   display: flex;
   z-index: 1; }
@@ -100,10 +74,27 @@ button {
     color: inherit;
     align-self: flex-end; }
 
-/**
-
- Idea of dual split ping pong color here
-
-
-
-**/
+.ag-menu-screen {
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(17, 17, 17, 0.6);
+  font-family: "Martel Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  .ag-menu-screen__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    max-height: 40rem; }
+  .ag-menu-screen__title {
+    font-weight: 900;
+    font-style: italic;
+    padding: 1rem;
+    border-bottom: 1px solid #f1f1f1; }
+  .ag-menu-screen__menu-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center; }

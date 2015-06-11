@@ -1,0 +1,50 @@
+//
+// Menu Scene
+// =============================================================================
+
+
+.ag-menu-screen {
+
+  @extend %fill;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background: transparentize($black, $screen-opacity);
+
+  font-family: $title-font-family;
+
+  //
+  //
+  //
+
+  // ag-menu-screen__content
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    flex: 1;
+
+    max-height: 40rem;
+  }
+
+  // ag-menu-screen__title
+  &__title {
+    font-weight: 900;
+    font-style: italic;
+
+    padding: 1rem;
+    border-bottom: 1px solid $white;
+  }
+
+  // ag-menu-screen__menu-buttons
+  &__menu-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

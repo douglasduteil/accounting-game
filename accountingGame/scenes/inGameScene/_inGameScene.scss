@@ -7,7 +7,10 @@
   @extend %fill;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   z-index: 1;
+
+  margin: 1rem;
 
   // ===========================================================================
 
@@ -16,4 +19,51 @@
     @extend .menu-btn;
     align-self: flex-start;
   }
+
+  // ag-in-game-screen__timer
+  &__timer {
+    @extend %fill;
+    left: auto;
+
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+
+    background: #fff;
+    border: 2px solid #666;
+    color: $persian-red;
+    text-align: center;
+
+    font-size: 28px;
+    font-weight: 900;
+
+    overflow: hidden;
+  }
+
+  // ag-in-game-screen__qa
+  &__qa {
+    background: $black;
+    margin: -1rem;
+    padding: 2rem;
+  }
+
+  // ag-in-game-screen__answer
+  &__answers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: flex-end;
+  }
+
+  // ag-in-game-screen__answer
+  &__answer  {
+    @extend .menu-btn;
+    flex: 1;
+    flex-basis: 50%;
+  }
 }
+
+
+

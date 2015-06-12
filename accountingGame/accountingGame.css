@@ -1,11 +1,11 @@
-.ag-bg-video-wrapper, .ag-bg-user-select, .ag-about-screen, .ag-about-screen:before, .ag-about-screen:after, .ag-in-game-screen, .ag-menu-screen {
+.ag-bg-video-wrapper, .ag-bg-user-select, .ag-about-screen, .ag-about-screen:before, .ag-about-screen:after, .ag-in-game-screen, .ag-in-game-screen__timer, .ag-menu-screen {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0; }
 
-.menu-btn, .ag-about-screen__back-button, .ag-in-game-screen__back-button {
+.menu-btn, .ag-about-screen__back-button, .ag-in-game-screen__back-button, .ag-in-game-screen__answer {
   box-sizing: border-box; }
 
 body {
@@ -13,7 +13,7 @@ body {
 
 html, body {
   background: #111;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Fugaz One", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #f1f1f1; }
 
 button {
@@ -28,25 +28,21 @@ button {
 h1, h2, h3, h4, h5, h6 {
   line-height: 1.1; }
 
-.menu-btn, .ag-about-screen__back-button, .ag-in-game-screen__back-button {
+.menu-btn, .ag-about-screen__back-button, .ag-in-game-screen__back-button, .ag-in-game-screen__answer {
   font-family: "Fugaz One", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 1em;
   padding: 1em 2em;
   border: 1px solid #f1f1f1;
   text-transform: uppercase;
   background: rgba(17, 17, 17, 0.2); }
-  .menu-btn + .menu-btn, .ag-about-screen__back-button + .menu-btn, .ag-in-game-screen__back-button + .menu-btn, .menu-btn + .ag-about-screen__back-button, .ag-about-screen__back-button + .ag-about-screen__back-button, .ag-in-game-screen__back-button + .ag-about-screen__back-button, .menu-btn + .ag-in-game-screen__back-button, .ag-about-screen__back-button + .ag-in-game-screen__back-button, .ag-in-game-screen__back-button + .ag-in-game-screen__back-button {
-    margin-top: 1rem; }
-  .menu-btn:active, .ag-about-screen__back-button:active, .ag-in-game-screen__back-button:active, .menu-btn:hover, .ag-about-screen__back-button:hover, .ag-in-game-screen__back-button:hover, .menu-btn--active {
+  .menu-btn:active, .ag-about-screen__back-button:active, .ag-in-game-screen__back-button:active, .ag-in-game-screen__answer:active, .menu-btn:hover, .ag-about-screen__back-button:hover, .ag-in-game-screen__back-button:hover, .ag-in-game-screen__answer:hover, .menu-btn--active {
     background: #f1f1f1;
     color: #111;
     font-weight: 900; }
-  .menu-btn:focus, .ag-about-screen__back-button:focus, .ag-in-game-screen__back-button:focus {
-    border-width: 3px;
+  .menu-btn:focus, .ag-about-screen__back-button:focus, .ag-in-game-screen__back-button:focus, .ag-in-game-screen__answer:focus {
     font-weight: 900; }
 
 .page-title, .ag-menu-screen__title {
-  font-family: "Fugaz One", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 900;
   font-style: italic;
   font-size: 2rem;
@@ -90,9 +86,37 @@ h1, h2, h3, h4, h5, h6 {
 .ag-in-game-screen {
   display: flex;
   flex-direction: column;
-  z-index: 1; }
+  justify-content: space-between;
+  z-index: 1;
+  margin: 1rem; }
   .ag-in-game-screen__back-button {
     align-self: flex-start; }
+  .ag-in-game-screen__timer {
+    left: auto;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+    background: #fff;
+    border: 2px solid #666;
+    color: #ca352f;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 900;
+    overflow: hidden; }
+  .ag-in-game-screen__qa {
+    background: #111;
+    margin: -1rem;
+    padding: 2rem; }
+  .ag-in-game-screen__answers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: flex-end; }
+  .ag-in-game-screen__answer {
+    flex: 1;
+    flex-basis: 50%; }
 
 .ag-menu-screen {
   z-index: 1;
@@ -110,3 +134,5 @@ h1, h2, h3, h4, h5, h6 {
   .ag-menu-screen__menu-buttons {
     display: flex;
     flex-direction: column; }
+    .ag-menu-screen__menu-buttons + .ag-menu-screen__menu-buttons {
+      margin-top: 1rem; }

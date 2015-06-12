@@ -25,6 +25,8 @@ export default angular
   .config(accountingGameRoutesConfig)
   .controller('AccountingGame', AccountingGameController)
   .directive('accountingGame', accountingGameDirective)
+  .factory('PlayerHandler', PlayerHandler)
+  .factory('StateHandler', StateHandler)
 ;
 
 //
@@ -57,7 +59,7 @@ function accountingGameDirective() {
 }
 
 // @ngInject
-function AccountingGameController($scope, $window) {
+function AccountingGameController($scope, $window, $timeout, PlayerHandler, StateHandler) {
   const accountingGame = this;
   accountingGame.youtubeVideo = 'HiHCroJDxSA';
 
@@ -65,29 +67,19 @@ function AccountingGameController($scope, $window) {
   // <video> can't autoplay on mobile so we will wait for a user input to display th ui
   accountingGame.videoIsPlaying = false;
 
-  accountingGame.start = start;
-
   ////
 
   const deregisterPlayerReadyEvent =
-    $scope.$on('youtube.player.ready', _onPlayerReady);
-
-
-  ////
-
-  function start() {
-
-  }
+    $scope.$on('youtube.player.ready', ($event, player) => {
+      $timeout(_onPlayerReady.bind(null, player));
+    });
 
   ////
 
+  function _onPlayerReady(player) {
 
-  function _onPlayerReady($event, player) {
-
-    //window.addEventListener('blur', _onWindowBlur);
-    //window.addEventListener('focus', _onWindowFocus);
-    window.onblur = _onWindowBlur;
-    window.onfocus = _onWindowFocus;
+    $window.onblur = _onWindowBlur;
+    $window.onfocus = _onWindowFocus;
 
     function _onWindowBlur() {
       //accountingGame.videoIsPlaying = false;
@@ -95,16 +87,34 @@ function AccountingGameController($scope, $window) {
     }
 
     function _onWindowFocus() {
-      player.playVideo();
-      waitForVideoReady(player);
+      const current = StateHandler.current;
+
+      // HACK
+      // FORCE TRY THE CURRENT STATE
+      current.update(player.getCurrentTime(), player);
+
+      if(current.playerState !== player.getPlayerState()){
+        switch (player.getPlayerState()){
+          case YT.PlayerState.PAUSED:
+            player.pauseVideo();
+            break;
+
+          default:
+            player.playerVideo();
+            break;
+        }
+      }
+
+      _waitForVideoReady(player);
     }
 
-    startExperience(player);
-    waitForVideoReady(player);
+    PlayerHandler.player = player;
+    PlayerHandler.loop();
+
+    _waitForVideoReady(player);
   }
 
-  function waitForVideoReady(player) {
-
+  function _waitForVideoReady(player) {
 
     const waitForVideoFirstFrameIntervalId =
       setInterval(_waitForVideoFirstFrame, 1000);
@@ -124,42 +134,36 @@ function AccountingGameController($scope, $window) {
   }
 }
 
-function startExperience(player) {
-  // Default start config
-  player.mute();
-  player.seekTo(0);
-  player.playVideo();
-
-  let state = IdelMode(player);
-
-  setInterval(updateLoop, 1000);
-
-  ////
-
-  function updateLoop() {
-    state.update(player.getCurrentTime());
-  }
-
-  function spySecond() {
-
-  }
-
-  function loopToIdle() {
-
-  }
-}
-
-function IdelMode(player) {
-
+// @ngInject
+function PlayerHandler(StateHandler){
   return {
-    update: idelUpdate
-  }
-
-  ////
-
-  function idelUpdate(time) {
-    if (time > 30) {
+    get player(){ return this._player; },
+    set player(player) {
+      player.mute();
       player.seekTo(0);
+      player.playVideo();
+      this._player = player;
+    },
+
+    loop: function(){
+      const currentState = StateHandler.current;
+
+
+      if (currentState){
+        console.info(this._player.getCurrentTime(), currentState.update.name);
+        currentState.update(this._player.getCurrentTime(), this._player);
+      }
+
+      window.requestAnimationFrame(() => this.loop());
     }
-  }
+  };
 }
+
+// @ngInject
+function StateHandler(){
+  return {
+    current: null
+  };
+}
+
+

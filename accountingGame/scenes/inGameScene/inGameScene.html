@@ -5,8 +5,26 @@
     Back
   </button>
 
-  <div ng-show="inGame.isUserMoment">
-    Wait...
+
+  <div class="ag-in-game-screen__timer" ng-show="inGame.askQuestion">
+    {{ inGame.askQuestion.remainingTime }}
+  </div>
+
+  <div
+   class="ag-in-game-screen__qa"
+   ng-show="inGame.askQuestion">
+    <h3 class="ag-in-game-screen__question">
+      {{ inGame.askQuestion.question }}
+    </h3>
+
+    <div class="ag-in-game-screen__answers">
+      <button
+       class="ag-in-game-screen__answer"
+       ng-repeat="answers in inGame.askQuestion.answers"
+       >
+        {{ :: answers}}
+      </button>
+    </div>
   </div>
 
 </section>

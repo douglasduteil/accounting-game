@@ -56,7 +56,7 @@ body {
 
 html, body {
   background: $black;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: $title-font-family;
   color: $white;
 }
 
@@ -78,6 +78,10 @@ h1, h2, h3, h4, h5, h6 {
 // Object
 // =============================================================================
 
+.button {
+
+}
+
 // =============================================================================
 // Components
 // =============================================================================
@@ -95,9 +99,6 @@ h1, h2, h3, h4, h5, h6 {
 
   background: transparentize($black, $screen-opacity * 2);
 
-  & + & {
-    margin-top: 1rem;
-  }
 
   // Variants
   // ===================
@@ -111,14 +112,12 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   &:focus {
-    border-width: 3px;
     font-weight: 900;
   }
 
 }
 
 .page-title {
-  font-family: $title-font-family;
   font-weight: 900;
   font-style: italic;
   font-size: 2rem;

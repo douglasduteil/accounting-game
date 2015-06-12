@@ -89,18 +89,21 @@ function AccountingGameController($scope, $window, $timeout, PlayerHandler, Stat
     function _onWindowFocus() {
       const current = StateHandler.current;
 
+      if (!current){
+        return;
+      }
       // HACK
       // FORCE TRY THE CURRENT STATE
       current.update(player.getCurrentTime(), player);
 
       if(current.playerState !== player.getPlayerState()){
-        switch (player.getPlayerState()){
+        switch (current.playerState){
           case YT.PlayerState.PAUSED:
             player.pauseVideo();
             break;
 
           default:
-            player.playerVideo();
+            player.playVideo();
             break;
         }
       }

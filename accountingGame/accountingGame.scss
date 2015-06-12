@@ -133,7 +133,7 @@ h1, h2, h3, h4, h5, h6 {
 .ag-bg-video-wrapper {
   @extend %fill;
   z-index: -99;
-  bottom: 3px;
+  overflow: hidden;
 }
 
 //

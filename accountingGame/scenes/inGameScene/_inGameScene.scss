@@ -41,11 +41,17 @@
     overflow: hidden;
   }
 
-  // ag-in-game-screen__qa
-  &__qa {
+  // ag-in-game-screen__qa-wrapper
+  &__qa-wrapper {
     background: $black;
     margin: -1rem;
     padding: 2rem;
+  }
+
+  // ag-in-game-screen__qa
+  &__qa {
+    max-width: 40rem;
+    margin: auto;
   }
 
   // ag-in-game-screen__answer

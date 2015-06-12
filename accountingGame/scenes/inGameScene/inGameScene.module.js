@@ -6,26 +6,50 @@ import _ from 'lodash';
 import inGameSceneHtmlTemplate from './inGameScene.html!text';
 
 const QUESTION_TIME_LIMIT = 1500 * 1000; // seconds
-const FAIL_FRAME = {
-  start: 75,
-  end: 70
-};
 
-const SUCCESS_FRAME = {
-  start: 64,
-  end: 89
-};
+const ALONE_FRAMES = Symbol('ALONE_FRAMES');
+const PLAYING_FRAMES = Symbol('PLAYING_FRAMES');
+const WINNING_FRAMES = Symbol('WINNING_FRAMES');
+const LOSING_FRAMES = Symbol('LOSING_FRAMES');
 
-const BREAK_FRAMES = [
+const VIDEO_FRAMES = [
   {
-    start: 64,
-    isSuccessful: true,
-    end: 89
+    end: 50,
+    state: ALONE_FRAMES,
+    start: 0
   },
   {
-    start: 70,
-    isSuccessful: false,
-    end: 71
+    end: 60,
+    state: PLAYING_FRAMES,
+    start: 50
+  },
+  {
+    end: 70,
+    state: WINNING_FRAMES,
+    start: 40
+  },
+  {
+    end: 75,
+    state: PLAYING_FRAMES,
+    start: 70
+  },
+  {
+    end: 80,
+    state: LOSING_FRAMES,
+    start: 75
+  }
+];
+
+const QUESTIONS = [
+  {
+    question: 'YOLO ?',
+    correctResponseIndex: 1,
+    answers: [
+      'Yeah',
+      'F**** Yeah',
+      'All Day',
+      'Reponse D'
+    ]
   }
 ];
 
@@ -46,42 +70,65 @@ function inGameSceneDirective() {
 }
 
 // @ngInject
-function InGameController($scope, StateHandler) {
+function InGameController($state, $scope, StateHandler) {
   const inGame = this;
 
   inGame.calculateRemainingTime = calculateRemainingTime;
-  //
-
-  const frames = _.clone(BREAK_FRAMES);
-  StateHandler.current = Ping(60);
+  inGame.askQuestion = null;
+  inGame.userAnswer = userAnswer;
 
   //
 
-  function calculateRemainingTime(start, end){
+  let frames = _.clone(VIDEO_FRAMES);
+  StateHandler.current = Ping(30);
+
+  //
+
+  function calculateRemainingTime(start, end) {
     return Math.floor((end - start) / 1000) + 1;
   }
 
+  function userAnswer(answer) {
+    if (!inGame.askQuestion) {
+      return;
+    }
+
+
+    StateHandler.current =
+      inGame.askQuestion.answers.indexOf(answer) === inGame.askQuestion.correctResponseIndex ?
+        Success() :
+        Fail();
+
+    inGame.askQuestion = null;
+  }
+
+  //
+
+  // States
+  // -----------------------------------
+
   function Ping(startTime) {
 
-    let isWaitingForAwnser = false;
+    const playingFrame = _.find(frames, {state: PLAYING_FRAMES});
+
+    if (!playingFrame){
+      $state.go('menu');
+      return;
+    }
+
+    frames = _.drop(frames, frames.indexOf(playingFrame) + 1);
 
     return {
+      playerState: YT.PlayerState.PLAYING,
       update: pingUpdate
     };
 
     ////
 
     function pingUpdate(time, player) {
-      const nextBreak = _.first(frames);
-
-      //
-      //if (time < startTime && player.getPlaybackRate() < 2) {
-      //  player.setPlaybackRate(2);
-      //}
-      //
-      if (time < startTime) {
-        player.seekTo(startTime);
-      } else if (time >= nextBreak.start) {
+      if (time < playingFrame.start) {
+        player.seekTo(playingFrame.start);
+      } else if (time >= playingFrame.end) {
         player.pauseVideo();
         StateHandler.current = QAndA();
       }
@@ -91,15 +138,7 @@ function InGameController($scope, StateHandler) {
   function QAndA() {
 
     const MAX_TIME = window.performance.now() + QUESTION_TIME_LIMIT;
-    inGame.askQuestion = {
-      question: 'YOLO ?',
-      answers: [
-        'Yeah',
-        'F**** Yeah',
-        'All Day',
-        'Reponse D'
-      ]
-    };
+    inGame.askQuestion = _.first(QUESTIONS);
 
     return {
       playerState: YT.PlayerState.PAUSED,
@@ -125,23 +164,71 @@ function InGameController($scope, StateHandler) {
       }
     }
 
-    function Fail() {
+  }
 
-      const failingFrame = frames.pop();
+  function Fail() {
 
-      return {
-        update: failUpdate
-      };
+    const failingFrame = _.find(frames, {state: LOSING_FRAMES});
 
-      ////
+    if (!failingFrame){
+      $state.go('menu');
+      return;
+    }
 
-      function failUpdate(time, player) {
-        if (time > failingFrame.end) {
-          StateHandler.current = Ping();
-        }
+    frames = _.drop(frames, frames.indexOf(failingFrame) + 1);
+
+    return {
+      playerState: YT.PlayerState.PLAYING,
+      update: failUpdate
+    };
+
+    ////
+
+    function failUpdate(time, player) {
+
+      if(this.playerState !== player.getPlayerState()){
+        player.playVideo();
       }
 
+      if (time < failingFrame.start) {
+        player.seekTo(failingFrame.start);
+      }else if (time > failingFrame.end) {
+        StateHandler.current = Ping();
+      }
     }
+
   }
+  function Success() {
+    const successfulFrame = _.find(frames, {state: WINNING_FRAMES});
+
+    if (!successfulFrame){
+      $state.go('menu');
+      return;
+    }
+
+    frames = _.drop(frames, frames.indexOf(successfulFrame) + 1);
+
+    return {
+      playerState: YT.PlayerState.PLAYING,
+      update: successUpdate
+    };
+
+    ////
+
+    function successUpdate(time, player) {
+
+      if(this.playerState !== player.getPlayerState()){
+        player.playVideo();
+      }
+
+      if (time < successfulFrame.start) {
+        player.seekTo(successfulFrame.start);
+      }else if (time > successfulFrame.end) {
+        StateHandler.current = Ping();
+      }
+    }
+
+  }
+
 }
 

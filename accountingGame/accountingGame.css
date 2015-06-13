@@ -137,6 +137,12 @@ h1, h2, h3, h4, h5, h6 {
     @media (max-width: 480px) {
       .ag-in-game-screen__answer {
         flex-basis: 100%; } }
+  .ag-in-game-screen__response {
+    text-align: center; }
+    .ag-in-game-screen__response--right {
+      color: green; }
+    .ag-in-game-screen__response--false {
+      color: #ca352f; }
 
 .ag-menu-screen {
   z-index: 1;

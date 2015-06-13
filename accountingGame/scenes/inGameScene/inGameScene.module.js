@@ -80,7 +80,7 @@ function InGameController($state, $scope, StateHandler) {
   //
 
   let frames = _.clone(VIDEO_FRAMES);
-  StateHandler.current = Ping(30);
+  StateHandler.current = Ping();
 
   //
 
@@ -106,7 +106,7 @@ function InGameController($state, $scope, StateHandler) {
   // States
   // -----------------------------------
 
-  function Ping(startTime) {
+  function Ping() {
 
     const playingFrame = _.find(frames, {state: PLAYING_FRAMES});
 
@@ -168,6 +168,7 @@ function InGameController($state, $scope, StateHandler) {
   function Fail() {
 
     const failingFrame = _.find(frames, {state: LOSING_FRAMES});
+    inGame.answerResponse = { valid : false };
 
     if (!failingFrame){
       $state.go('end');
@@ -192,6 +193,8 @@ function InGameController($state, $scope, StateHandler) {
       if (time < failingFrame.start) {
         player.seekTo(failingFrame.start);
       }else if (time > failingFrame.end) {
+        inGame.answerResponse = null;
+        $scope.$digest();
         StateHandler.current = Ping();
       }
     }
@@ -200,6 +203,7 @@ function InGameController($state, $scope, StateHandler) {
 
   function Success() {
     const successfulFrame = _.find(frames, {state: WINNING_FRAMES});
+    inGame.answerResponse = { valid : true };
 
     if (!successfulFrame){
       $state.go('end');
@@ -224,6 +228,8 @@ function InGameController($state, $scope, StateHandler) {
       if (time < successfulFrame.start) {
         player.seekTo(successfulFrame.start);
       }else if (time > successfulFrame.end) {
+        inGame.answerResponse = null;
+        $scope.$digest();
         StateHandler.current = Ping();
       }
     }

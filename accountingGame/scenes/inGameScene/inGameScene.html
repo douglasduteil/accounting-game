@@ -24,10 +24,25 @@
          ng-click="inGame.userAnswer(answers)"
          ng-repeat="answers in inGame.askQuestion.answers"
          >
-          {{ :: answers}}
+          {{ :: answers }}
         </button>
       </div>
     </div>
+  </div>
+
+  <div
+   class="ag-in-game-screen__response"
+   ng-class="{
+     'ag-in-game-screen__response--right': inGame.answerResponse.valid,
+     'ag-in-game-screen__response--false': !inGame.answerResponse.valid
+   }"
+   ng-show="inGame.answerResponse">
+      <span ng-show="inGame.answerResponse.valid">
+        Right
+      </span>
+      <span ng-hide="inGame.answerResponse.valid">
+        Nope
+      </span>
   </div>
 
 </section>

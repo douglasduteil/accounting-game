@@ -73,6 +73,16 @@
       flex-basis: 100%;
     }
   }
+
+  &__response {
+    text-align: center;
+    &--right{
+      color: green;
+    }
+    &--false{
+      color: $persian-red;
+    }
+  }
 }
 
 

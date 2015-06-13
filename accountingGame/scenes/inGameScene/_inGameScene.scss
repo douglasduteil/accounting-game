@@ -14,6 +14,18 @@
 
   // ===========================================================================
 
+  // ag-in-game-screen__header
+  &__header {
+    display: flex;
+  }
+
+  // ag-in-game-screen__score
+  &__score {
+    margin-left: 3rem;
+    font-weight: normal;
+  }
+
+
   // ag-in-game-screen__back-button
   &__back-button {
     @extend .menu-btn;
@@ -74,10 +86,14 @@
     }
   }
 
+  // ag-in-game-screen__response
   &__response {
     text-align: center;
+    background: transparentize($black, $screen-opacity);
+    padding: 1rem;
+
     &--right{
-      color: green;
+      color: $atlantis;
     }
     &--false{
       color: $persian-red;

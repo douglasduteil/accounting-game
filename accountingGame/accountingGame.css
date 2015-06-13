@@ -103,6 +103,11 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: space-between;
   z-index: 1;
   margin: 1rem; }
+  .ag-in-game-screen__header {
+    display: flex; }
+  .ag-in-game-screen__score {
+    margin-left: 3rem;
+    font-weight: normal; }
   .ag-in-game-screen__back-button {
     align-self: flex-start; }
   .ag-in-game-screen__timer {
@@ -138,9 +143,11 @@ h1, h2, h3, h4, h5, h6 {
       .ag-in-game-screen__answer {
         flex-basis: 100%; } }
   .ag-in-game-screen__response {
-    text-align: center; }
+    text-align: center;
+    background: rgba(17, 17, 17, 0.6);
+    padding: 1rem; }
     .ag-in-game-screen__response--right {
-      color: green; }
+      color: #68ca2f; }
     .ag-in-game-screen__response--false {
       color: #ca352f; }
 

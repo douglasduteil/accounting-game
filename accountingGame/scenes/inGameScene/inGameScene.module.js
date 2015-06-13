@@ -7,38 +7,14 @@ import inGameSceneHtmlTemplate from './inGameScene.html!text';
 
 const QUESTION_TIME_LIMIT = 1500 * 1000; // seconds
 
-const ALONE_FRAMES = Symbol('ALONE_FRAMES');
-const PLAYING_FRAMES = Symbol('PLAYING_FRAMES');
-const WINNING_FRAMES = Symbol('WINNING_FRAMES');
-const LOSING_FRAMES = Symbol('LOSING_FRAMES');
 
-const VIDEO_FRAMES = [
-  {
-    end: 50,
-    state: ALONE_FRAMES,
-    start: 0
-  },
-  {
-    end: 60,
-    state: PLAYING_FRAMES,
-    start: 50
-  },
-  {
-    end: 70,
-    state: WINNING_FRAMES,
-    start: 40
-  },
-  {
-    end: 75,
-    state: PLAYING_FRAMES,
-    start: 70
-  },
-  {
-    end: 80,
-    state: LOSING_FRAMES,
-    start: 75
-  }
-];
+import {
+  ALONE_FRAMES,
+  LOSING_FRAMES,
+  PLAYING_FRAMES,
+  VIDEO_FRAMES,
+  WINNING_FRAMES
+} from '../../assets/FRAMES'
 
 const QUESTIONS = [
   {
@@ -75,6 +51,8 @@ function InGameController($state, $scope, StateHandler) {
 
   inGame.calculateRemainingTime = calculateRemainingTime;
   inGame.askQuestion = null;
+  inGame.answerResponse = null;
+  inGame.score = 0;
   inGame.userAnswer = userAnswer;
 
   //
@@ -109,8 +87,12 @@ function InGameController($state, $scope, StateHandler) {
   function Ping() {
 
     const playingFrame = _.find(frames, {state: PLAYING_FRAMES});
-
-    if (!playingFrame){
+    const canWinOrLose =
+      _.find(frames, {state: WINNING_FRAMES}) &&
+      _.find(frames, {state: LOSING_FRAMES});
+    const canStillPlay = playingFrame && canWinOrLose;
+    if (!canStillPlay){
+      StateHandler.score = inGame.score;
       $state.go('end');
       return;
     }
@@ -169,10 +151,10 @@ function InGameController($state, $scope, StateHandler) {
 
     const failingFrame = _.find(frames, {state: LOSING_FRAMES});
     inGame.answerResponse = { valid : false };
+    //inGame.score--;
 
     if (!failingFrame){
-      $state.go('end');
-      return;
+      throw new Error('invalid state');
     }
 
     frames = _.drop(frames, frames.indexOf(failingFrame) + 1);
@@ -204,10 +186,10 @@ function InGameController($state, $scope, StateHandler) {
   function Success() {
     const successfulFrame = _.find(frames, {state: WINNING_FRAMES});
     inGame.answerResponse = { valid : true };
+    inGame.score++;
 
     if (!successfulFrame){
-      $state.go('end');
-      return;
+      throw new Error('invalid state');
     }
 
     frames = _.drop(frames, frames.indexOf(successfulFrame) + 1);

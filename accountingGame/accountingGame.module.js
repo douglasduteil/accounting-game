@@ -8,6 +8,7 @@ import 'angular-youtube-embed';
 import accountingGameHtmlTemplate from './accountingGame.html!text';
 
 import aboutSceneModule from './scenes/aboutScene/aboutScene.module';
+import endSceneModule from './scenes/endScene/endScene.module';
 import inGameSceneModule from './scenes/inGameScene/inGameScene.module';
 import menuSceneModule from './scenes/menuScene/menuScene.module';
 
@@ -16,6 +17,7 @@ import menuSceneModule from './scenes/menuScene/menuScene.module';
 export default angular
   .module('accountingGame', [
     aboutSceneModule.name,
+    endSceneModule.name,
     inGameSceneModule.name,
     menuSceneModule.name,
     'ngAnimate',
@@ -42,6 +44,10 @@ function accountingGameRoutesConfig($stateProvider, $urlRouterProvider) {
     .state('about', {
       url: '/about',
       template: '<about-scene></about-scene>'
+    })
+    .state('end', {
+      url: '/end',
+      template: '<end-scene></end-scene>'
     })
     .state('inGame', {
       url: '/game',

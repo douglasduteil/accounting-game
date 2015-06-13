@@ -93,7 +93,6 @@ function InGameController($state, $scope, StateHandler) {
       return;
     }
 
-
     StateHandler.current =
       inGame.askQuestion.answers.indexOf(answer) === inGame.askQuestion.correctResponseIndex ?
         Success() :
@@ -112,7 +111,7 @@ function InGameController($state, $scope, StateHandler) {
     const playingFrame = _.find(frames, {state: PLAYING_FRAMES});
 
     if (!playingFrame){
-      $state.go('menu');
+      $state.go('end');
       return;
     }
 
@@ -171,7 +170,7 @@ function InGameController($state, $scope, StateHandler) {
     const failingFrame = _.find(frames, {state: LOSING_FRAMES});
 
     if (!failingFrame){
-      $state.go('menu');
+      $state.go('end');
       return;
     }
 
@@ -198,11 +197,12 @@ function InGameController($state, $scope, StateHandler) {
     }
 
   }
+
   function Success() {
     const successfulFrame = _.find(frames, {state: WINNING_FRAMES});
 
     if (!successfulFrame){
-      $state.go('menu');
+      $state.go('end');
       return;
     }
 

@@ -1,11 +1,11 @@
-.ag-bg-video-wrapper, .ag-bg-user-select, .ag-about-screen, .ag-about-screen:before, .ag-about-screen:after, .ag-in-game-screen, .ag-in-game-screen__timer, .ag-menu-screen {
+.ag-bg-video-wrapper, .ag-bg-user-select, .ag-about-screen, .ag-about-screen:before, .ag-about-screen:after, .ag-end-screen, .ag-in-game-screen, .ag-in-game-screen__timer, .ag-menu-screen {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0; }
 
-.menu-btn, .ag-about-screen__back-button, .ag-in-game-screen__back-button, .ag-in-game-screen__answer {
+.menu-btn, .ag-about-screen__back-button, .ag-end-screen__back-button, .ag-in-game-screen__back-button, .ag-in-game-screen__answer {
   box-sizing: border-box; }
 
 body {
@@ -28,18 +28,18 @@ button {
 h1, h2, h3, h4, h5, h6 {
   line-height: 1.1; }
 
-.menu-btn, .ag-about-screen__back-button, .ag-in-game-screen__back-button, .ag-in-game-screen__answer {
+.menu-btn, .ag-about-screen__back-button, .ag-end-screen__back-button, .ag-in-game-screen__back-button, .ag-in-game-screen__answer {
   font-family: "Fugaz One", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 1em;
   padding: 1em 2em;
   border: 1px solid #f1f1f1;
   text-transform: uppercase;
   background: rgba(17, 17, 17, 0.2); }
-  .menu-btn:active, .ag-about-screen__back-button:active, .ag-in-game-screen__back-button:active, .ag-in-game-screen__answer:active, .menu-btn:hover, .ag-about-screen__back-button:hover, .ag-in-game-screen__back-button:hover, .ag-in-game-screen__answer:hover, .menu-btn--active {
+  .menu-btn:active, .ag-about-screen__back-button:active, .ag-end-screen__back-button:active, .ag-in-game-screen__back-button:active, .ag-in-game-screen__answer:active, .menu-btn:hover, .ag-about-screen__back-button:hover, .ag-end-screen__back-button:hover, .ag-in-game-screen__back-button:hover, .ag-in-game-screen__answer:hover, .menu-btn--active {
     background: #f1f1f1;
     color: #111;
     font-weight: 900; }
-  .menu-btn:focus, .ag-about-screen__back-button:focus, .ag-in-game-screen__back-button:focus, .ag-in-game-screen__answer:focus {
+  .menu-btn:focus, .ag-about-screen__back-button:focus, .ag-end-screen__back-button:focus, .ag-in-game-screen__back-button:focus, .ag-in-game-screen__answer:focus {
     font-weight: 900; }
 
 .page-title, .ag-menu-screen__title {
@@ -83,6 +83,20 @@ h1, h2, h3, h4, h5, h6 {
     align-self: flex-end;
     font-size: .8rem; }
 
+.ag-end-screen {
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(17, 17, 17, 0.6); }
+  .ag-end-screen__score {
+    color: #ca352f;
+    font-weight: 300;
+    text-align: center; }
+  .ag-end-screen__back-button {
+    align-self: flex-start; }
+
 .ag-in-game-screen {
   display: flex;
   flex-direction: column;
@@ -120,6 +134,9 @@ h1, h2, h3, h4, h5, h6 {
   .ag-in-game-screen__answer {
     flex: 1;
     flex-basis: 50%; }
+    @media (max-width: 480px) {
+      .ag-in-game-screen__answer {
+        flex-basis: 100%; } }
 
 .ag-menu-screen {
   z-index: 1;

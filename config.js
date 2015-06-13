@@ -8,6 +8,7 @@ System.config({
   },
   "paths": {
     "*": "*.js",
+    "~/*": "accountingGame/*.js",
     "github:*": "jspm_packages/github/*.js",
     "npm:*": "jspm_packages/npm/*.js"
   }

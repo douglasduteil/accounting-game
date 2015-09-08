@@ -36,6 +36,7 @@ clean:
 	mkdir out
 
 serve:
-	${CHOKIDAR_CMD} '${APP_FOLDER_NAME}/**/*.js' -c 'make jspm' &
-	${BROWSER_SYNC_CMD} start --server out --files="out" --no-open --no-ui &
-	wait
+	${CHOKIDAR_CMD} '${APP_FOLDER_NAME}.js' '${APP_FOLDER_NAME}/**/*.js' -c 'make jspm' &
+	${CHOKIDAR_CMD} 'index.html' -c 'make copy' &
+	${CHOKIDAR_CMD} '${APP_FOLDER_NAME}/assets/**/*' -c 'make copy' &
+	${BROWSER_SYNC_CMD} start --server out --files="out" --no-open --no-ui

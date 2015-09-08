@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run serve & npm run scss",
-    "scss": "scss accountingGame/accountingGame.scss --watch --sourcemap=none",
-    "serve": "browser-sync start --no-open --server --files='*.html, accountingGame/**/*, !accountingGame/**/*.scss'"
+    "postinstall": "jspm i"
   },
   "keywords": [],
   "author": "",
@@ -19,7 +17,6 @@
       "angular-ui-router": "github:angular-ui/ui-router@^0.2.15",
       "angular-youtube-embed": "github:brandly/angular-youtube-embed@^1.0.2",
       "lodash": "npm:lodash@^3.9.3",
-      "ngNewRouter": "github:angular/router@^0.5.3",
       "text": "github:systemjs/plugin-text@^0.0.2",
       "videogular": "github:2fdevs/bower-videogular@^1.2.2"
     },
@@ -54,19 +51,13 @@
             ]
           }
         }
-      },
-      "github:angular/router@0.5.3": {
-        "dependencies": {
-          "angular": "jspm:angular@^1.4.0"
-        },
-        "shim": {
-          "ngNewRouter": {
-            "deps": [
-              "angular"
-            ]
-          }
-        }
       }
     }
+  },
+  "devDependencies": {
+    "browser-sync": "^2.9.1",
+    "chokidar": "^1.0.5",
+    "chokidar-cli": "^1.0.1",
+    "jspm": "^0.16.2"
   }
 }

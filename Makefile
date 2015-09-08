@@ -17,13 +17,13 @@ default: build
 build: clean copy jspm
 
 jspm:
-	cp --parents jspm_packages/system.js out
-
 	cp -f config.js config.js.old
 	${JSPM_BUNDLE_CMD} ${APP_FOLDER_NAME} bundle.app.js --inject
-	mv bundle.app.js out/
-	mv bundle.app.js.map out/
+
+	# Copy all to output
+	mv bundle.app.js bundle.app.js.map out
 	cp config.js out/config.js
+	cp --parents jspm_packages/system.js out
 
 	mv config.js.old config.js
 
@@ -36,7 +36,7 @@ clean:
 	mkdir out
 
 serve:
-	${CHOKIDAR_CMD} '${APP_FOLDER_NAME}.js' '${APP_FOLDER_NAME}/**/*.js' -c 'make jspm' &
-	${CHOKIDAR_CMD} 'index.html' -c 'make copy' &
-	${CHOKIDAR_CMD} '${APP_FOLDER_NAME}/assets/**/*' -c 'make copy' &
-	${BROWSER_SYNC_CMD} start --server out --files="out" --no-open --no-ui
+	${CHOKIDAR_CMD} '${APP_FOLDER_NAME}.js' '${APP_FOLDER_NAME}/**/*.js' '${APP_FOLDER_NAME}/**/*.css' -c '${MAKE} jspm' &
+	${CHOKIDAR_CMD} 'index.html' -c '${MAKE} copy' &
+	${CHOKIDAR_CMD} '${APP_FOLDER_NAME}/assets/**/*' -c '${MAKE} copy' &
+	${BROWSER_SYNC_CMD} start --config bs-config.js

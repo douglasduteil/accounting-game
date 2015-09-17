@@ -14,7 +14,7 @@ import {
   PLAYING_FRAMES,
   VIDEO_FRAMES,
   WINNING_FRAMES
-} from '../../assets/FRAMES'
+} from './FRAMES'
 
 const QUESTIONS = [
   {

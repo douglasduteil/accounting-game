@@ -7,7 +7,7 @@ export const LOSING_FRAMES = Symbol('LOSING_FRAMES');
 
 export const VIDEO_FRAMES = [
   {
-    end: 47,
+    end: 5,
     state: ALONE_FRAMES,
     start: 0
   },

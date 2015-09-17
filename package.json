@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "jspm i"
+    "postinstall": "jspm i",
+    "start": "make build serve"
   },
   "keywords": [],
   "author": "",

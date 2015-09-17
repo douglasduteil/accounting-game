@@ -6,6 +6,7 @@ import 'angular-ui-router';
 import 'angular-youtube-embed';
 
 import accountingGameHtmlTemplate from './accountingGame.html!text';
+import accountingGameStyle from './accountingGame.css!';
 
 import aboutSceneModule from './scenes/aboutScene/aboutScene.module';
 import endSceneModule from './scenes/endScene/endScene.module';

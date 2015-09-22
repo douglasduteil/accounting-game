@@ -2,11 +2,11 @@
 // Custom css plugin here
 //
 
-import { CSSLoader, Plugins } from 'jspm-loader-css'
+import {CSSLoader, Plugins} from 'jspm-loader-css'
 import calc from 'postcss-calc';
 import cssvariables from 'postcss-css-variables';
 
-const {fetch} = new CSSLoader([
+const {fetch, bundle} = new CSSLoader([
   cssvariables({
     variables: {
       gWindowGeaderHeight: '33px'
@@ -19,4 +19,4 @@ const {fetch} = new CSSLoader([
   Plugins.autoprefixer()
 ], __moduleName);
 
-export {fetch};
+export {fetch, bundle};

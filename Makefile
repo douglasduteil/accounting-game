@@ -19,13 +19,16 @@ build: clean copy jspm
 save-last-config:
 	cp -f config.js config.js.old
 
-jspm: save-last-config jspm-app jspm-vendor move-app-bundle move-vendor-bundle
-	cp config.js out/config.js
-	cp --parents jspm_packages/system.js out
+restore-last-config:
 	mv config.js.old config.js
 
+jspm: save-last-config jspm-app jspm-vendor move-app-bundle move-vendor-bundle
+	cp config.js out/config.js
+	cp --parents jspm_packages/system.js jspm_packages/system.src.js out
+	${MAKE} restore-last-config
+
 jspm-app:
-	${JSPM_BUNDLE_CMD} ${APP_FOLDER_NAME} \
+	${JSPM_BUNDLE_CMD} index \
  	 - '[npm:**/*]' - '[github:**/*]'\
 	 bundle.app.js --inject
 
@@ -35,7 +38,8 @@ move-app-bundle:
 jspm-vendor:
 	${JSPM_BUNDLE_CMD} '${APP_FOLDER_NAME}/**/*'\
 	 - '[${APP_FOLDER_NAME}/**/*]'\
-	 - '[~/**/*!github:systemjs/plugin-text@0.0.2]' bundle.vendor.js --inject
+	 - '[~/**/*!github:systemjs/plugin-text@0.0.2]'\
+	 bundle.vendor.js --inject
 
 move-vendor-bundle:
 	mv bundle.vendor.js bundle.vendor.js.map out
@@ -49,7 +53,7 @@ clean:
 	mkdir out
 
 serve:
-	${CHOKIDAR_CMD} '${APP_FOLDER_NAME}.js' '${APP_FOLDER_NAME}/**/*' -c '${MAKE} jspm-app move-app-bundle' &
+	${CHOKIDAR_CMD} '${APP_FOLDER_NAME}.js' '${APP_FOLDER_NAME}/**/*' -c '${MAKE} save-last-config jspm-app move-app-bundle restore-last-config' &
 	${CHOKIDAR_CMD} 'index.html' -c '${MAKE} copy' &
 	${CHOKIDAR_CMD} '${APP_FOLDER_NAME}/assets/**/*' -c '${MAKE} copy' &
 	${BROWSER_SYNC_CMD} start --config bs-config.js

@@ -33,16 +33,13 @@
 
 
 =====================================================-->
-<script src="jspm_packages/system.js"></script>
+<script src="jspm_packages/system.src.js"></script>
 <script src="config.js"></script>
 <script>
   ;
-  (function () {
-    System.import('./accountingGame')
-     .then(function (accountingGameModule) {
-       angular.bootstrap(document, [accountingGameModule['default'].name]);
-     });
-  }());
+  (function (System) {
+    System.import('./index')
+  }(window.System));
 </script>
 <!--
 =====================================================

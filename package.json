@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "jspm i",
+    "serve": "browser-sync start --config bs-config.dev.js",
     "start": "make build serve"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "jspm": {
-    "directories": {},
     "dependencies": {
       "angular": "github:angular/bower-angular@^1.4.0",
       "angular-animate": "github:angular/bower-angular-animate@^1.4.0",

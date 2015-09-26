@@ -19,8 +19,8 @@ System.config({
     "angular-animate": "github:angular/bower-angular-animate@1.4.6",
     "angular-ui-router": "github:angular-ui/ui-router@0.2.15",
     "angular-youtube-embed": "github:brandly/angular-youtube-embed@1.1.0",
-    "babel": "npm:babel-core@5.8.24",
-    "babel-runtime": "npm:babel-runtime@5.8.24",
+    "babel": "npm:babel-core@5.8.25",
+    "babel-runtime": "npm:babel-runtime@5.8.25",
     "core-js": "npm:core-js@0.9.18",
     "css": "systemjs_plugins/css",
     "jspm-loader-css": "npm:jspm-loader-css@1.0.0",
@@ -28,8 +28,8 @@ System.config({
     "postcss-calc": "npm:postcss-calc@4.1.0",
     "postcss-css-variables": "npm:postcss-css-variables@0.4.0",
     "text": "github:systemjs/plugin-text@0.0.2",
-    "videogular": "github:2fdevs/bower-videogular@1.2.6",
-    "github:2fdevs/bower-videogular@1.2.6": {
+    "videogular": "github:2fdevs/bower-videogular@1.2.8",
+    "github:2fdevs/bower-videogular@1.2.8": {
       "angular": "github:angular/bower-angular@1.4.6",
       "angular-sanitize": "github:angular/bower-angular-sanitize@1.4.6"
     },
@@ -69,7 +69,7 @@ System.config({
     "npm:assert@1.3.0": {
       "util": "npm:util@0.10.3"
     },
-    "npm:babel-runtime@5.8.24": {
+    "npm:babel-runtime@5.8.25": {
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:buffer@3.5.0": {

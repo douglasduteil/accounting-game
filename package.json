@@ -1,16 +1,21 @@
 {
   "name": "accounting-game",
   "version": "1.0.0",
-  "description": "",
+  "description": "Accounting Game",
   "main": "index.js",
   "scripts": {
     "postinstall": "jspm i",
+    "deploy": "make build && ngd --push -d out --orphan -b gh-pages ",
     "serve": "browser-sync start --config bs-config.dev.js",
     "start": "make build serve"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Douglas Duteil",
+  "license": "WTFPL",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/douglasduteil/accounting-game.git"
+  },
   "jspm": {
     "dependencies": {
       "angular": "github:angular/bower-angular@^1.4.0",
@@ -62,6 +67,7 @@
     "browser-sync": "^2.9.1",
     "chokidar": "^1.0.5",
     "chokidar-cli": "^1.0.1",
-    "jspm": "^0.16.2"
+    "jspm": "^0.16.10",
+    "node-git-deployor": "^1.0.0"
   }
 }

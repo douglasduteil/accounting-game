@@ -3,14 +3,20 @@
 //
 
 import {CSSLoader, Plugins} from 'jspm-loader-css'
+import inlineComment from 'postcss-inline-comment';
+import nested from 'postcss-nested';
 import calc from 'postcss-calc';
 import cssvariables from 'postcss-css-variables';
 
+const cssGlobalVariables = {
+  gWindowGeaderHeight: '33px'
+};
+
 const {fetch, bundle} = new CSSLoader([
+  inlineComment(),
+  nested(),
   cssvariables({
-    variables: {
-      gWindowGeaderHeight: '33px'
-    }
+    variables: cssGlobalVariables
   }),
   calc(),
   Plugins.localByDefault,

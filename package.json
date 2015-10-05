@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "jspm i",
-    "deploy": "make build && ngd --push -d out --orphan -b gh-pages ",
+    "deploy": "make build && ngd --verbose --push -d out --orphan -b gh-pages ",
     "serve": "browser-sync start --config bs-config.dev.js",
     "start": "make build serve"
   },
@@ -26,6 +26,8 @@
       "lodash": "npm:lodash@^3.9.3",
       "postcss-calc": "npm:postcss-calc@^4.0.0",
       "postcss-css-variables": "npm:postcss-css-variables@^0.4.0",
+      "postcss-inline-comment": "npm:postcss-inline-comment@^1",
+      "postcss-nested": "npm:postcss-nested@^0",
       "text": "github:systemjs/plugin-text@^0.0.2",
       "videogular": "github:2fdevs/bower-videogular@^1.2.2"
     },
@@ -64,10 +66,10 @@
     }
   },
   "devDependencies": {
-    "browser-sync": "^2.9.1",
-    "chokidar": "^1.0.5",
+    "browser-sync": "^2.9.8",
+    "chokidar": "^1.2.0",
     "chokidar-cli": "^1.0.1",
-    "jspm": "^0.16.10",
-    "node-git-deployor": "^1.0.0"
+    "jspm": "^0.16.11",
+    "node-git-deployor": "^1.0.2"
   }
 }

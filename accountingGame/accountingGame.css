@@ -1,7 +1,0 @@
-/**/
-
-.bgVideoWrapper {
-  composes: fill from "./helpers.css";
-  z-index: -99;
-  overflow: hidden;
-}

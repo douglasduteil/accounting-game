@@ -5,3 +5,9 @@
   z-index: -99;
   overflow: hidden;
 }
+
+.bgUserSelect {
+  composes: fill from "./helpers.scss";
+  z-index: 0;
+  background: transparent;
+}

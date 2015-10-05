@@ -126,8 +126,6 @@ function AccountingGameController($scope, $window, $timeout, PlayerHandler, Stat
   }
 
   function _waitForVideoReady(player) {
-    // HACK(douglasduteil): no viedo plz
-    return
     const waitForVideoFirstFrameIntervalId =
       setInterval(_waitForVideoFirstFrame, 1000);
     deregisterPlayerReadyEvent();
@@ -167,8 +165,7 @@ function PlayerHandler(StateHandler){
       }
 
 
-      // HACK(douglasduteil): no viedo plz
-      //window.requestAnimationFrame(() => this.loop());
+      window.requestAnimationFrame(() => this.loop());
     }
   };
 }

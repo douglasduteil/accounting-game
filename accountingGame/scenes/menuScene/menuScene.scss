@@ -1,5 +1,17 @@
 /* Menu Scene */
 
+.bgWrapper {
+  composes: fill from "../helpers.scss";
+
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(17, 17, 17, 0.6);
+}
+
 .ag-menu-screen {
 
   @extend %fill;

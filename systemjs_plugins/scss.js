@@ -3,7 +3,7 @@
 //
 
 import {CSSLoader, Plugins} from 'jspm-loader-css'
-import inlineComment from 'postcss-inline-comment';
+// import inlineComment from 'postcss-inline-comment';
 import nested from 'postcss-nested';
 import calc from 'postcss-calc';
 import cssvariables from 'postcss-css-variables';
@@ -13,7 +13,7 @@ const cssGlobalVariables = {
 };
 
 const {fetch, bundle} = new CSSLoader([
-  inlineComment(),
+  // inlineComment(), // NOT WORKING WHO KNOWS WHY...
   nested(),
   cssvariables({
     variables: cssGlobalVariables

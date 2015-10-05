@@ -3,6 +3,7 @@
 import angular from 'angular';
 
 import menuSceneHtmlTemplate from './menuScene.html!text';
+import menuSceneStyle from './menuScene.scss!';
 
 const FIRST_PING = 47;
 
@@ -25,6 +26,7 @@ function menuSceneDirective(){
 // @ngInject
 function MenuSceneController(StateHandler){
   StateHandler.current = IdelMode();
+  this.style = menuSceneStyle;
 }
 
 function IdelMode() {

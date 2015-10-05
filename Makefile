@@ -39,6 +39,7 @@ jspm-vendor:
 	${JSPM_BUNDLE_CMD} '${APP_FOLDER_NAME}/**/*'\
 	 - '[${APP_FOLDER_NAME}/**/*]'\
 	 - '[~/**/*!github:systemjs/plugin-text@0.0.2]'\
+	 - '[~/**/*!systemjs_plugins/scss.js]'\
 	 bundle.vendor.js --inject
 
 move-vendor-bundle:

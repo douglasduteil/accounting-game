@@ -22,33 +22,3 @@
   composes: button from "~/commons/helpers.scss";
   align-self: flex-start;
 }
-
-/*
-//
-//
-// =============================================================================
-
-.ag-end-screen {
-  @extend %fill;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  background: transparentize($black, $screen-opacity);
-
-  // ag-end-screen__score
-  &__score {
-    color: $persian-red;
-    font-weight: 300;
-    text-align: center;
-  }
-
-  // ag-end-screen__back-button
-  &__back-button {
-    @extend .menu-btn;
-    align-self: flex-start;
-  }
-}
-*/

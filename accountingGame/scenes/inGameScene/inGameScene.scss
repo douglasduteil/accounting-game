@@ -69,6 +69,10 @@
   composes: button from "~/commons/helpers.scss";
   flex: 1;
   flex-basis: 50%;
+
+    @media (max-width: 480px) {
+      flex-basis: 100%;
+    }
 }
 
 .response {

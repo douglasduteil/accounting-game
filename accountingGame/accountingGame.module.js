@@ -160,7 +160,7 @@ function PlayerHandler(StateHandler){
 
 
       if (currentState){
-        console.info(this._player.getCurrentTime(), currentState.update.name);
+        //console.info(this._player.getCurrentTime(), currentState.update.name);
         currentState.update(this._player.getCurrentTime(), this._player);
       }
 

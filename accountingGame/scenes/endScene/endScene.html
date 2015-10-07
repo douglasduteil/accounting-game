@@ -1,16 +1,16 @@
-<section class="ag-end-screen">
+<section ng-class="end.style.screen">
 
-  <div class="ag-end-screen__content">
-    <h1 class="page-title">Ending</h1>
+  <div ng-class="end.style.content">
+    <h1 ng-class="page-title">Ending</h1>
 
     <article>
-      <img src="accountingGame/assets/christophe-b.jpg" alt=""/>
+      <img src="assets/christophe-b.jpg" alt=""/>
 
       <p>
         Haha that was a good game.
       </p>
 
-      <h3 class="ag-end-screen__score">Score: {{:: end.score }}</h3>
+      <h3 ng-class="end.style.score">Score: {{:: end.score }}</h3>
       <p>
         But... Where is Sabrina ?
         <br/>
@@ -19,7 +19,7 @@
 
     </article>
 
-    <button class="ag-end-screen__back-button" ui-sref="menu">
+    <button ng-class="end.style.backButton" ui-sref="menu">
       Back to menu
     </button>
   </div>

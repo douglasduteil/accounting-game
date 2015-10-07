@@ -4,8 +4,9 @@ import angular from 'angular';
 import _ from 'lodash';
 
 import inGameSceneHtmlTemplate from './inGameScene.html!text';
+import inGameSceneHStyle from './inGameScene.scss!';
 
-const QUESTION_TIME_LIMIT = 1500 * 1000; // seconds
+const QUESTION_TIME_LIMIT = 15 * 1000; // seconds
 
 
 import {
@@ -53,6 +54,7 @@ function InGameController($state, $scope, StateHandler) {
   inGame.askQuestion = null;
   inGame.answerResponse = null;
   inGame.score = 0;
+  inGame.style = inGameSceneHStyle;
   inGame.userAnswer = userAnswer;
 
   //

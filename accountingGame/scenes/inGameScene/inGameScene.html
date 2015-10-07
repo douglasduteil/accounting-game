@@ -1,32 +1,32 @@
-<section class="ag-in-game-screen">
+<section ng-class="inGame.style.screen">
 
-  <header class="ag-in-game-screen__header">
-    <button class="ag-in-game-screen__back-button"
+  <header ng-class="inGame.style.header">
+    <button ng-class="inGame.style.backButton"
      ui-sref="menu">
       Back
     </button>
 
-    <h4 class="ag-in-game-screen__score">
+    <h4 ng-class="inGame.style.score">
       Score : {{ inGame.score }} €
     </h4>
   </header>
 
 
-  <div class="ag-in-game-screen__timer" ng-show="inGame.askQuestion">
+  <div ng-class="inGame.style.timer" ng-show="inGame.askQuestion">
     {{ inGame.askQuestion.remainingTime }}
   </div>
 
-  <div class="ag-in-game-screen__qa-wrapper"
+  <div ng-class="inGame.style.qaWrapper"
    ng-show="inGame.askQuestion">
 
-    <div class="ag-in-game-screen__qa">
-      <h3 class="ag-in-game-screen__question">
+    <div ng-class="inGame.style.qa">
+      <h3 ng-class="inGame.style.question">
         {{ inGame.askQuestion.question }}
       </h3>
 
-      <div class="ag-in-game-screen__answers">
+      <div ng-class="inGame.style.answers">
         <button
-         class="ag-in-game-screen__answer"
+         ng-class="inGame.style.answer"
          ng-click="inGame.userAnswer(answers)"
          ng-repeat="answers in inGame.askQuestion.answers"
          >
@@ -37,11 +37,7 @@
   </div>
 
   <h1
-   class="ag-in-game-screen__response"
-   ng-class="{
-     'ag-in-game-screen__response--right': inGame.answerResponse.valid,
-     'ag-in-game-screen__response--false': !inGame.answerResponse.valid
-   }"
+   ng-class="inGame.answerResponse.valid ? inGame.style.rightResponse : inGame.style.falseResponse"
    ng-show="inGame.answerResponse">
       <span ng-show="inGame.answerResponse.valid">
         Right

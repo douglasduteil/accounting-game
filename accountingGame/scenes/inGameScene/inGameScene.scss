@@ -1,0 +1,89 @@
+/* In Game Scene*/
+
+.screen {
+  composes: fill from "~/commons/helpers.scss";
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 1;
+
+  margin: 1rem;
+}
+
+.header {
+  display: flex;
+}
+
+.score {
+  margin-left: 3rem;
+  font-weight: normal;
+}
+
+.backButton {
+  composes: button from "~/commons/helpers.scss";
+  align-self: flex-start;
+}
+
+.timer {
+  composes: fill from "~/commons/helpers.scss";
+
+  left: auto;
+
+  border: 2px solid white;
+  border-radius: 19px;
+  color: white;
+  color: var(--gColorPersianRed);
+  min-width: 2em;
+  padding: 4px 3px 0 3px;
+  text-align: center;
+  background: #fff;
+  border: 2px solid #666;
+  text-align: center;
+  font-weight: 900;
+  overflow: hidden;
+  height: 2.6rem;
+  font-size: 1.5rem;
+}
+
+.qaWrapper {
+  background: black;
+  margin: -1rem;
+  padding: 2rem;
+}
+
+.qa {
+  max-width: 40rem;
+  margin: auto;
+}
+
+.answers {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-content: flex-end;
+}
+
+.answer {
+  composes: button from "~/commons/helpers.scss";
+  flex: 1;
+  flex-basis: 50%;
+}
+
+.response {
+  text-align: center;
+  background: rgba(17, 17, 17, 0.6);
+  padding: 1rem;
+
+}
+
+.rightResponse {
+  composes: response;
+  color: var(--gColorAtlantis);
+}
+
+.falseResponse{
+  composes: response;
+  color: var(--gColorPersianRed);
+}

@@ -2,6 +2,8 @@
 
 import angular from 'angular';
 
+import helpersStyle from '~/commons/helpers.scss!';
+
 import menuSceneHtmlTemplate from './menuScene.html!text';
 import menuSceneStyle from './menuScene.scss!';
 
@@ -26,7 +28,7 @@ function menuSceneDirective(){
 // @ngInject
 function MenuSceneController(StateHandler){
   StateHandler.current = IdelMode();
-  this.style = menuSceneStyle;
+  this.style = Object.assign({}, helpersStyle, menuSceneStyle);
 }
 
 function IdelMode() {

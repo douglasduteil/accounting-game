@@ -9,7 +9,8 @@ import calc from 'postcss-calc';
 import cssvariables from 'postcss-css-variables';
 
 const cssGlobalVariables = {
-  gWindowGeaderHeight: '33px'
+  gColorPersianRed: '#ca352f',
+  gColorAtlantis: 'hsl(98, 62%, 49%)'
 };
 
 const {fetch, bundle} = new CSSLoader([

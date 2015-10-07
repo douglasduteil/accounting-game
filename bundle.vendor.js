@@ -1,4 +1,4 @@
-System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, function(__require, __exports, __module) {
+System.registerDynamic("github:angular/bower-angular@1.4.7/angular", [], false, function(__require, __exports, __module) {
   var _retrieveGlobal = System.get("@@global-helpers").prepareGlobal(__module.id, "angular", null);
   (function() {
     "format global";
@@ -23,7 +23,7 @@ System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, 
             }
             return match;
           });
-          message += '\nhttp://errors.angularjs.org/1.4.6/' + (module ? module + '/' : '') + code;
+          message += '\nhttp://errors.angularjs.org/1.4.7/' + (module ? module + '/' : '') + code;
           for (i = SKIP_INDEXES, paramPrefix = '?'; i < templateArgs.length; i++, paramPrefix = '&') {
             message += paramPrefix + 'p' + (i - SKIP_INDEXES) + '=' + encodeURIComponent(toDebugString(templateArgs[i]));
           }
@@ -892,11 +892,11 @@ System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, 
         return obj;
       }
       var version = {
-        full: '1.4.6',
+        full: '1.4.7',
         major: 1,
         minor: 4,
-        dot: 6,
-        codeName: 'multiplicative-elevation'
+        dot: 7,
+        codeName: 'dark-luminescence'
       };
       function publishExternalAPI(angular) {
         extend(angular, {
@@ -999,6 +999,7 @@ System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, 
             $httpParamSerializer: $HttpParamSerializerProvider,
             $httpParamSerializerJQLike: $HttpParamSerializerJQLikeProvider,
             $httpBackend: $HttpBackendProvider,
+            $xhrFactory: $xhrFactoryProvider,
             $location: $LocationProvider,
             $log: $LogProvider,
             $parse: $ParseProvider,
@@ -1047,10 +1048,10 @@ System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, 
           return offset ? letter.toUpperCase() : letter;
         }).replace(MOZ_HACK_REGEXP, 'Moz$1');
       }
-      var SINGLE_TAG_REGEXP = /^<(\w+)\s*\/?>(?:<\/\1>|)$/;
+      var SINGLE_TAG_REGEXP = /^<([\w-]+)\s*\/?>(?:<\/\1>|)$/;
       var HTML_REGEXP = /<|&#?\w+;/;
-      var TAG_NAME_REGEXP = /<([\w:]+)/;
-      var XHTML_TAG_REGEXP = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi;
+      var TAG_NAME_REGEXP = /<([\w:-]+)/;
+      var XHTML_TAG_REGEXP = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:-]+)[^>]*)\/>/gi;
       var wrapMap = {
         'option': [1, '<select multiple="multiple">', '</select>'],
         'thead': [1, '<table>', '</table>'],
@@ -2352,6 +2353,9 @@ System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, 
             }
           };
           return function(element, options) {
+            if (options.cleanupStyles) {
+              options.from = options.to = null;
+            }
             if (options.from) {
               element.css(options.from);
               options.from = null;
@@ -3729,7 +3733,7 @@ System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, 
               priority: 100,
               compile: function() {
                 return {pre: function attrInterpolatePreLinkFn(scope, element, attr) {
-                    var $$observers = (attr.$$observers || (attr.$$observers = {}));
+                    var $$observers = (attr.$$observers || (attr.$$observers = createMap()));
                     if (EVENT_HANDLER_ATTR_REGEXP.test(name)) {
                       throw $compileMinErr('nodomevents', "Interpolations for HTML DOM event attributes are disallowed.  Please use the " + "ng- versions (such as ng-click instead of onclick) instead.");
                     }
@@ -4429,12 +4433,16 @@ System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, 
           }
         }];
       }
-      function createXhr() {
-        return new window.XMLHttpRequest();
+      function $xhrFactoryProvider() {
+        this.$get = function() {
+          return function createXhr() {
+            return new window.XMLHttpRequest();
+          };
+        };
       }
       function $HttpBackendProvider() {
-        this.$get = ['$browser', '$window', '$document', function($browser, $window, $document) {
-          return createHttpBackend($browser, createXhr, $browser.defer, $window.angular.callbacks, $document[0]);
+        this.$get = ['$browser', '$window', '$document', '$xhrFactory', function($browser, $window, $document, $xhrFactory) {
+          return createHttpBackend($browser, $xhrFactory, $browser.defer, $window.angular.callbacks, $document[0]);
         }];
       }
       function createHttpBackend($browser, createXhr, $browserDefer, callbacks, rawDocument) {
@@ -4452,7 +4460,7 @@ System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, 
               callbacks[callbackId] = noop;
             });
           } else {
-            var xhr = createXhr();
+            var xhr = createXhr(method, url);
             xhr.open(method, url, true);
             forEach(headers, function(value, key) {
               if (isDefined(value)) {
@@ -5199,9 +5207,15 @@ System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, 
       }
       var $parseMinErr = minErr('$parse');
       function ensureSafeMemberName(name, fullExpression) {
-        name = (isObject(name) && name.toString) ? name.toString() : name;
         if (name === "__defineGetter__" || name === "__defineSetter__" || name === "__lookupGetter__" || name === "__lookupSetter__" || name === "__proto__") {
           throw $parseMinErr('isecfld', 'Attempting to access a disallowed field in Angular expressions! ' + 'Expression: {0}', fullExpression);
+        }
+        return name;
+      }
+      function getStringValue(name, fullExpression) {
+        name = name + '';
+        if (!isString(name)) {
+          throw $parseMinErr('iseccst', 'Cannot convert object to primitive value! ' + 'Expression: {0}', fullExpression);
         }
         return name;
       }
@@ -5228,6 +5242,13 @@ System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, 
             throw $parseMinErr('isecfn', 'Referencing Function in Angular expressions is disallowed! Expression: {0}', fullExpression);
           } else if (obj === CALL || obj === APPLY || obj === BIND) {
             throw $parseMinErr('isecff', 'Referencing call, apply or bind in Angular expressions is disallowed! Expression: {0}', fullExpression);
+          }
+        }
+      }
+      function ensureSafeAssignContext(obj, fullExpression) {
+        if (obj) {
+          if (obj === (0).constructor || obj === (false).constructor || obj === ''.constructor || obj === {}.constructor || obj === [].constructor || obj === Function.constructor) {
+            throw $parseMinErr('isecaf', 'Assigning to a constructor is disallowed! Expression: {0}', fullExpression);
           }
         }
       }
@@ -5969,7 +5990,7 @@ System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, 
           this.stage = 'main';
           this.recurse(ast);
           var fnString = '"' + this.USE + ' ' + this.STRICT + '";\n' + this.filterPrefix() + 'var fn=' + this.generateFunction('fn', 's,l,a,i') + extra + this.watchFns() + 'return fn;';
-          var fn = (new Function('$filter', 'ensureSafeMemberName', 'ensureSafeObject', 'ensureSafeFunction', 'ifDefined', 'plus', 'text', fnString))(this.$filter, ensureSafeMemberName, ensureSafeObject, ensureSafeFunction, ifDefined, plusFn, expression);
+          var fn = (new Function('$filter', 'ensureSafeMemberName', 'ensureSafeObject', 'ensureSafeFunction', 'getStringValue', 'ensureSafeAssignContext', 'ifDefined', 'plus', 'text', fnString))(this.$filter, ensureSafeMemberName, ensureSafeObject, ensureSafeFunction, getStringValue, ensureSafeAssignContext, ifDefined, plusFn, expression);
           this.state = this.stage = undefined;
           fn.literal = isLiteral(ast);
           fn.constant = isConstant(ast);
@@ -6104,6 +6125,7 @@ System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, 
                   if (ast.computed) {
                     right = self.nextId();
                     self.recurse(ast.property, right);
+                    self.getStringValue(right);
                     self.addEnsureSafeMemberName(right);
                     if (create && create !== 1) {
                       self.if_(self.not(self.computedMember(left, right)), self.lazyAssign(self.computedMember(left, right), '{}'));
@@ -6187,6 +6209,7 @@ System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, 
                 self.if_(self.notNull(left.context), function() {
                   self.recurse(ast.right, right);
                   self.addEnsureSafeObject(self.member(left.context, left.name, left.computed));
+                  self.addEnsureSafeAssignContext(left.context);
                   expression = self.member(left.context, left.name, left.computed) + ast.operator + right;
                   self.assign(intoId, expression);
                   recursionFn(intoId || expression);
@@ -6295,6 +6318,9 @@ System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, 
         addEnsureSafeFunction: function(item) {
           this.current().body.push(this.ensureSafeFunction(item), ';');
         },
+        addEnsureSafeAssignContext: function(item) {
+          this.current().body.push(this.ensureSafeAssignContext(item), ';');
+        },
         ensureSafeObject: function(item) {
           return 'ensureSafeObject(' + item + ',text)';
         },
@@ -6303,6 +6329,12 @@ System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, 
         },
         ensureSafeFunction: function(item) {
           return 'ensureSafeFunction(' + item + ',text)';
+        },
+        getStringValue: function(item) {
+          this.assign(item, 'getStringValue(' + item + ',text)');
+        },
+        ensureSafeAssignContext: function(item) {
+          return 'ensureSafeAssignContext(' + item + ',text)';
         },
         lazyRecurse: function(ast, intoId, nameId, recursionFn, create, skipWatchIdCheck) {
           var self = this;
@@ -6474,6 +6506,7 @@ System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, 
                 var lhs = left(scope, locals, assign, inputs);
                 var rhs = right(scope, locals, assign, inputs);
                 ensureSafeObject(lhs.value, self.expression);
+                ensureSafeAssignContext(lhs.context);
                 lhs.context[lhs.name] = rhs;
                 return context ? {value: rhs} : rhs;
               };
@@ -6679,6 +6712,7 @@ System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, 
             var value;
             if (lhs != null) {
               rhs = right(scope, locals, assign, inputs);
+              rhs = getStringValue(rhs);
               ensureSafeMemberName(rhs, expression);
               if (create && create !== 1 && lhs && !(lhs[rhs])) {
                 lhs[rhs] = {};
@@ -8459,6 +8493,7 @@ System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, 
           if (fractionSize > 0 && number < 1) {
             formatedText = number.toFixed(fractionSize);
             number = parseFloat(formatedText);
+            formatedText = formatedText.replace(DECIMAL_SEP, decimalSep);
           }
         }
         if (number === 0) {
@@ -10538,12 +10573,12 @@ System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, 
             function updateOptionElement(option, element) {
               option.element = element;
               element.disabled = option.disabled;
-              if (option.value !== element.value)
-                element.value = option.selectValue;
               if (option.label !== element.label) {
                 element.label = option.label;
                 element.textContent = option.label;
               }
+              if (option.value !== element.value)
+                element.value = option.selectValue;
             }
             function addOrReuseElement(parent, current, type, templateElement) {
               var element;
@@ -10571,7 +10606,7 @@ System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, 
               var emptyOption_ = emptyOption && emptyOption[0];
               var unknownOption_ = unknownOption && unknownOption[0];
               if (emptyOption_ || unknownOption_) {
-                while (current && (current === emptyOption_ || current === unknownOption_)) {
+                while (current && (current === emptyOption_ || current === unknownOption_ || emptyOption_ && emptyOption_.nodeType === NODE_TYPE_COMMENT)) {
                   current = current.nextSibling;
                 }
               }
@@ -11337,17 +11372,17 @@ System.registerDynamic("github:angular/bower-angular@1.4.6/angular", [], false, 
   return _retrieveGlobal();
 });
 
-System.registerDynamic("github:angular/bower-angular@1.4.6", ["github:angular/bower-angular@1.4.6/angular"], true, function(require, exports, module) {
+System.registerDynamic("github:angular/bower-angular@1.4.7", ["github:angular/bower-angular@1.4.7/angular"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = require("github:angular/bower-angular@1.4.6/angular");
+  module.exports = require("github:angular/bower-angular@1.4.7/angular");
   global.define = __define;
   return module.exports;
 });
 
-System.registerDynamic("github:angular-ui/ui-router@0.2.15/angular-ui-router", ["github:angular/bower-angular@1.4.6"], false, function(__require, __exports, __module) {
+System.registerDynamic("github:angular-ui/ui-router@0.2.15/angular-ui-router", ["github:angular/bower-angular@1.4.7"], false, function(__require, __exports, __module) {
   var _retrieveGlobal = System.get("@@global-helpers").prepareGlobal(__module.id, null, null);
   (function() {
     "format global";
@@ -13413,7 +13448,7 @@ System.registerDynamic("github:angular-ui/ui-router@0.2.15", ["github:angular-ui
   return module.exports;
 });
 
-System.registerDynamic("github:angular/bower-angular-animate@1.4.6/angular-animate", ["github:angular/bower-angular@1.4.6"], false, function(__require, __exports, __module) {
+System.registerDynamic("github:angular/bower-angular-animate@1.4.7/angular-animate", ["github:angular/bower-angular@1.4.7"], false, function(__require, __exports, __module) {
   var _retrieveGlobal = System.get("@@global-helpers").prepareGlobal(__module.id, null, null);
   (function() {
     "format global";
@@ -13724,11 +13759,6 @@ System.registerDynamic("github:angular/bower-angular-animate@1.4.6/angular-anima
           return a;
         return a + ' ' + b;
       }
-      function $$BodyProvider() {
-        this.$get = ['$document', function($document) {
-          return jqLite($document[0].body);
-        }];
-      }
       var $$rAFSchedulerFactory = ['$$rAF', function($$rAF) {
         var queue,
             cancelFn;
@@ -13870,6 +13900,11 @@ System.registerDynamic("github:angular/bower-angular-animate@1.4.6/angular-anima
           }
         };
       }
+      function registerRestorableStyles(backup, node, properties) {
+        forEach(properties, function(prop) {
+          backup[prop] = isDefined(backup[prop]) ? backup[prop] : node.style.getPropertyValue(prop);
+        });
+      }
       var $AnimateCssProvider = ['$animateProvider', function($animateProvider) {
         var gcsLookup = createLocalCacheLookup();
         var gcsStaggerLookup = createLocalCacheLookup();
@@ -13932,6 +13967,7 @@ System.registerDynamic("github:angular/bower-angular-animate@1.4.6/angular-anima
             return timings;
           }
           return function init(element, options) {
+            var restoreStyles = {};
             var node = getDomNode(element);
             if (!node || !node.parentNode || !$animate.enabled()) {
               return closeAndReturnNoopAnimator();
@@ -14068,7 +14104,12 @@ System.registerDynamic("github:angular/bower-angular-animate@1.4.6/angular-anima
               flags.blockTransition = timings.transitionDuration > 0;
               flags.blockKeyframeAnimation = timings.animationDuration > 0 && stagger.animationDelay > 0 && stagger.animationDuration === 0;
             }
-            applyAnimationFromStyles(element, options);
+            if (options.from) {
+              if (options.cleanupStyles) {
+                registerRestorableStyles(restoreStyles, node, Object.keys(options.from));
+              }
+              applyAnimationFromStyles(element, options);
+            }
             if (flags.blockTransition || flags.blockKeyframeAnimation) {
               applyBlocking(maxDuration);
             } else if (!options.skipBlocking) {
@@ -14113,6 +14154,11 @@ System.registerDynamic("github:angular/bower-angular-animate@1.4.6/angular-anima
               });
               applyAnimationClasses(element, options);
               applyAnimationStyles(element, options);
+              if (Object.keys(restoreStyles).length) {
+                forEach(restoreStyles, function(value, prop) {
+                  value ? node.style.setProperty(prop, value) : node.style.removeProperty(prop);
+                });
+              }
               if (options.onDone) {
                 options.onDone();
               }
@@ -14255,7 +14301,12 @@ System.registerDynamic("github:angular/bower-angular-animate@1.4.6/angular-anima
                   element.data(ANIMATE_TIMER_KEY, animationsData);
                 }
                 element.on(events.join(' '), onAnimationProgress);
-                applyAnimationToStyles(element, options);
+                if (options.to) {
+                  if (options.cleanupStyles) {
+                    registerRestorableStyles(restoreStyles, node, Object.keys(options.to));
+                  }
+                  applyAnimationToStyles(element, options);
+                }
               }
               function onAnimationExpired() {
                 var animationsData = element.data(ANIMATE_TIMER_KEY);
@@ -14286,12 +14337,15 @@ System.registerDynamic("github:angular/bower-angular-animate@1.4.6/angular-anima
         var NG_ANIMATE_ANCHOR_CLASS_NAME = 'ng-anchor';
         var NG_OUT_ANCHOR_CLASS_NAME = 'ng-anchor-out';
         var NG_IN_ANCHOR_CLASS_NAME = 'ng-anchor-in';
-        this.$get = ['$animateCss', '$rootScope', '$$AnimateRunner', '$rootElement', '$$body', '$sniffer', '$$jqLite', function($animateCss, $rootScope, $$AnimateRunner, $rootElement, $$body, $sniffer, $$jqLite) {
+        function isDocumentFragment(node) {
+          return node.parentNode && node.parentNode.nodeType === 11;
+        }
+        this.$get = ['$animateCss', '$rootScope', '$$AnimateRunner', '$rootElement', '$sniffer', '$$jqLite', '$document', function($animateCss, $rootScope, $$AnimateRunner, $rootElement, $sniffer, $$jqLite, $document) {
           if (!$sniffer.animations && !$sniffer.transitions)
             return noop;
-          var bodyNode = getDomNode($$body);
+          var bodyNode = $document[0].body;
           var rootNode = getDomNode($rootElement);
-          var rootBodyElement = jqLite(bodyNode.parentNode === rootNode ? bodyNode : rootNode);
+          var rootBodyElement = jqLite(isDocumentFragment(rootNode) || bodyNode.contains(rootNode) ? rootNode : bodyNode);
           var applyAnimationClasses = applyAnimationClassesFactory($$jqLite);
           return function initDriverFn(animationDetails) {
             return animationDetails.from && animationDetails.to ? prepareFromToAnchorAnimation(animationDetails.from, animationDetails.to, animationDetails.classes, animationDetails.anchors) : prepareRegularAnimation(animationDetails);
@@ -14760,10 +14814,23 @@ System.registerDynamic("github:angular/bower-angular-animate@1.4.6/angular-anima
           var cO = currentAnimation.options;
           return (nO.addClass && nO.addClass === cO.removeClass) || (nO.removeClass && nO.removeClass === cO.addClass);
         });
-        this.$get = ['$$rAF', '$rootScope', '$rootElement', '$document', '$$body', '$$HashMap', '$$animation', '$$AnimateRunner', '$templateRequest', '$$jqLite', '$$forceReflow', function($$rAF, $rootScope, $rootElement, $document, $$body, $$HashMap, $$animation, $$AnimateRunner, $templateRequest, $$jqLite, $$forceReflow) {
+        this.$get = ['$$rAF', '$rootScope', '$rootElement', '$document', '$$HashMap', '$$animation', '$$AnimateRunner', '$templateRequest', '$$jqLite', '$$forceReflow', function($$rAF, $rootScope, $rootElement, $document, $$HashMap, $$animation, $$AnimateRunner, $templateRequest, $$jqLite, $$forceReflow) {
           var activeAnimationsLookup = new $$HashMap();
           var disabledElementsLookup = new $$HashMap();
           var animationsEnabled = null;
+          function postDigestTaskFactory() {
+            var postDigestCalled = false;
+            return function(fn) {
+              if (postDigestCalled) {
+                fn();
+              } else {
+                $rootScope.$$postDigest(function() {
+                  postDigestCalled = true;
+                  fn();
+                });
+              }
+            };
+          }
           var deregisterWatch = $rootScope.$watch(function() {
             return $templateRequest.totalPendingRequests === 0;
           }, function(isEmpty) {
@@ -14801,13 +14868,6 @@ System.registerDynamic("github:angular/bower-angular-animate@1.4.6/angular-anima
               });
             }
             return matches;
-          }
-          function triggerCallback(event, element, phase, data) {
-            $$rAF(function() {
-              forEach(findCallbacks(element, event), function(callback) {
-                callback(element, phase, data);
-              });
-            });
           }
           return {
             on: function(event, container, callback) {
@@ -14877,6 +14937,7 @@ System.registerDynamic("github:angular/bower-angular-animate@1.4.6/angular-anima
             }
             options = prepareAnimationOptions(options);
             var runner = new $$AnimateRunner();
+            var runInNextPostDigestOrNow = postDigestTaskFactory();
             if (isArray(options.addClass)) {
               options.addClass = options.addClass.join(' ');
             }
@@ -15011,7 +15072,16 @@ System.registerDynamic("github:angular/bower-angular-animate@1.4.6/angular-anima
             });
             return runner;
             function notifyProgress(runner, event, phase, data) {
-              triggerCallback(event, element, phase, data);
+              runInNextPostDigestOrNow(function() {
+                var callbacks = findCallbacks(element, event);
+                if (callbacks.length) {
+                  $$rAF(function() {
+                    forEach(callbacks, function(callback) {
+                      callback(element, phase, data);
+                    });
+                  });
+                }
+              });
               runner.progress(event, phase, data);
             }
             function close(reject) {
@@ -15048,7 +15118,8 @@ System.registerDynamic("github:angular/bower-angular-animate@1.4.6/angular-anima
             return getDomNode(nodeOrElmA) === getDomNode(nodeOrElmB);
           }
           function areAnimationsAllowed(element, parentElement, event) {
-            var bodyElementDetected = isMatchingElement(element, $$body) || element[0].nodeName === 'HTML';
+            var bodyElement = jqLite($document[0].body);
+            var bodyElementDetected = isMatchingElement(element, bodyElement) || element[0].nodeName === 'HTML';
             var rootElementDetected = isMatchingElement(element, $rootElement);
             var parentAnimationDetected = false;
             var animateChildren;
@@ -15086,7 +15157,7 @@ System.registerDynamic("github:angular/bower-angular-animate@1.4.6/angular-anima
                 }
               }
               if (!bodyElementDetected) {
-                bodyElementDetected = isMatchingElement(parentElement, $$body);
+                bodyElementDetected = isMatchingElement(parentElement, bodyElement);
               }
               parentElement = parentElement.parent();
             }
@@ -15551,18 +15622,18 @@ System.registerDynamic("github:angular/bower-angular-animate@1.4.6/angular-anima
           };
         }];
       }];
-      angular.module('ngAnimate', []).provider('$$body', $$BodyProvider).directive('ngAnimateChildren', $$AnimateChildrenDirective).factory('$$rAFScheduler', $$rAFSchedulerFactory).factory('$$AnimateRunner', $$AnimateRunnerFactory).factory('$$animateAsyncRun', $$AnimateAsyncRunFactory).provider('$$animateQueue', $$AnimateQueueProvider).provider('$$animation', $$AnimationProvider).provider('$animateCss', $AnimateCssProvider).provider('$$animateCssDriver', $$AnimateCssDriverProvider).provider('$$animateJs', $$AnimateJsProvider).provider('$$animateJsDriver', $$AnimateJsDriverProvider);
+      angular.module('ngAnimate', []).directive('ngAnimateChildren', $$AnimateChildrenDirective).factory('$$rAFScheduler', $$rAFSchedulerFactory).factory('$$AnimateRunner', $$AnimateRunnerFactory).factory('$$animateAsyncRun', $$AnimateAsyncRunFactory).provider('$$animateQueue', $$AnimateQueueProvider).provider('$$animation', $$AnimationProvider).provider('$animateCss', $AnimateCssProvider).provider('$$animateCssDriver', $$AnimateCssDriverProvider).provider('$$animateJs', $$AnimateJsProvider).provider('$$animateJsDriver', $$AnimateJsDriverProvider);
     })(window, window.angular);
   })();
   return _retrieveGlobal();
 });
 
-System.registerDynamic("github:angular/bower-angular-animate@1.4.6", ["github:angular/bower-angular-animate@1.4.6/angular-animate"], true, function(require, exports, module) {
+System.registerDynamic("github:angular/bower-angular-animate@1.4.7", ["github:angular/bower-angular-animate@1.4.7/angular-animate"], true, function(require, exports, module) {
   ;
   var global = this,
       __define = global.define;
   global.define = undefined;
-  module.exports = require("github:angular/bower-angular-animate@1.4.6/angular-animate");
+  module.exports = require("github:angular/bower-angular-animate@1.4.7/angular-animate");
   global.define = __define;
   return module.exports;
 });
@@ -15873,6 +15944,147 @@ System.registerDynamic("npm:core-js@0.9.18/library/modules/$", ["npm:core-js@0.9
   return module.exports;
 });
 
+System.registerDynamic("npm:core-js@0.9.18/library/modules/$.def", ["npm:core-js@0.9.18/library/modules/$"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.18/library/modules/$"),
+      global = $.g,
+      core = $.core,
+      isFunction = $.isFunction;
+  function ctx(fn, that) {
+    return function() {
+      return fn.apply(that, arguments);
+    };
+  }
+  $def.F = 1;
+  $def.G = 2;
+  $def.S = 4;
+  $def.P = 8;
+  $def.B = 16;
+  $def.W = 32;
+  function $def(type, name, source) {
+    var key,
+        own,
+        out,
+        exp,
+        isGlobal = type & $def.G,
+        isProto = type & $def.P,
+        target = isGlobal ? global : type & $def.S ? global[name] : (global[name] || {}).prototype,
+        exports = isGlobal ? core : core[name] || (core[name] = {});
+    if (isGlobal)
+      source = name;
+    for (key in source) {
+      own = !(type & $def.F) && target && key in target;
+      if (own && key in exports)
+        continue;
+      out = own ? target[key] : source[key];
+      if (isGlobal && !isFunction(target[key]))
+        exp = source[key];
+      else if (type & $def.B && own)
+        exp = ctx(out, global);
+      else if (type & $def.W && target[key] == out)
+        !function(C) {
+          exp = function(param) {
+            return this instanceof C ? new C(param) : C(param);
+          };
+          exp.prototype = C.prototype;
+        }(out);
+      else
+        exp = isProto && isFunction(out) ? ctx(Function.call, out) : out;
+      exports[key] = exp;
+      if (isProto)
+        (exports.prototype || (exports.prototype = {}))[key] = out;
+    }
+  }
+  module.exports = $def;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@0.9.18/library/modules/$.enum-keys", ["npm:core-js@0.9.18/library/modules/$"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.18/library/modules/$");
+  module.exports = function(it) {
+    var keys = $.getKeys(it),
+        getDesc = $.getDesc,
+        getSymbols = $.getSymbols;
+    if (getSymbols)
+      $.each.call(getSymbols(it), function(key) {
+        if (getDesc(it, key).enumerable)
+          keys.push(key);
+      });
+    return keys;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@0.9.18/library/modules/$.assign", ["npm:core-js@0.9.18/library/modules/$", "npm:core-js@0.9.18/library/modules/$.enum-keys"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.18/library/modules/$"),
+      enumKeys = require("npm:core-js@0.9.18/library/modules/$.enum-keys");
+  module.exports = Object.assign || function assign(target, source) {
+    var T = Object($.assertDefined(target)),
+        l = arguments.length,
+        i = 1;
+    while (l > i) {
+      var S = $.ES5Object(arguments[i++]),
+          keys = enumKeys(S),
+          length = keys.length,
+          j = 0,
+          key;
+      while (length > j)
+        T[key = keys[j++]] = S[key];
+    }
+    return T;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@0.9.18/library/modules/es6.object.assign", ["npm:core-js@0.9.18/library/modules/$.def", "npm:core-js@0.9.18/library/modules/$.assign"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var $def = require("npm:core-js@0.9.18/library/modules/$.def");
+  $def($def.S, 'Object', {assign: require("npm:core-js@0.9.18/library/modules/$.assign")});
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@0.9.18/library/fn/object/assign", ["npm:core-js@0.9.18/library/modules/es6.object.assign", "npm:core-js@0.9.18/library/modules/$"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  require("npm:core-js@0.9.18/library/modules/es6.object.assign");
+  module.exports = require("npm:core-js@0.9.18/library/modules/$").core.Object.assign;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:babel-runtime@5.8.25/core-js/object/assign", ["npm:core-js@0.9.18/library/fn/object/assign"], true, function(require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = {
+    "default": require("npm:core-js@0.9.18/library/fn/object/assign"),
+    __esModule: true
+  };
+  global.define = __define;
+  return module.exports;
+});
+
 System.registerDynamic("npm:core-js@0.9.18/library/fn/object/define-properties", ["npm:core-js@0.9.18/library/modules/$"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -15968,65 +16180,6 @@ System.registerDynamic("npm:core-js@0.9.18/library/modules/$.cof", ["npm:core-js
   return module.exports;
 });
 
-System.registerDynamic("npm:core-js@0.9.18/library/modules/$.def", ["npm:core-js@0.9.18/library/modules/$"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var $ = require("npm:core-js@0.9.18/library/modules/$"),
-      global = $.g,
-      core = $.core,
-      isFunction = $.isFunction;
-  function ctx(fn, that) {
-    return function() {
-      return fn.apply(that, arguments);
-    };
-  }
-  $def.F = 1;
-  $def.G = 2;
-  $def.S = 4;
-  $def.P = 8;
-  $def.B = 16;
-  $def.W = 32;
-  function $def(type, name, source) {
-    var key,
-        own,
-        out,
-        exp,
-        isGlobal = type & $def.G,
-        isProto = type & $def.P,
-        target = isGlobal ? global : type & $def.S ? global[name] : (global[name] || {}).prototype,
-        exports = isGlobal ? core : core[name] || (core[name] = {});
-    if (isGlobal)
-      source = name;
-    for (key in source) {
-      own = !(type & $def.F) && target && key in target;
-      if (own && key in exports)
-        continue;
-      out = own ? target[key] : source[key];
-      if (isGlobal && !isFunction(target[key]))
-        exp = source[key];
-      else if (type & $def.B && own)
-        exp = ctx(out, global);
-      else if (type & $def.W && target[key] == out)
-        !function(C) {
-          exp = function(param) {
-            return this instanceof C ? new C(param) : C(param);
-          };
-          exp.prototype = C.prototype;
-        }(out);
-      else
-        exp = isProto && isFunction(out) ? ctx(Function.call, out) : out;
-      exports[key] = exp;
-      if (isProto)
-        (exports.prototype || (exports.prototype = {}))[key] = out;
-    }
-  }
-  module.exports = $def;
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:core-js@0.9.18/library/modules/$.redef", ["npm:core-js@0.9.18/library/modules/$"], true, function(require, exports, module) {
   ;
   var global = this,
@@ -16052,27 +16205,6 @@ System.registerDynamic("npm:core-js@0.9.18/library/modules/$.keyof", ["npm:core-
     while (length > index)
       if (O[key = keys[index++]] === el)
         return key;
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@0.9.18/library/modules/$.enum-keys", ["npm:core-js@0.9.18/library/modules/$"], true, function(require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var $ = require("npm:core-js@0.9.18/library/modules/$");
-  module.exports = function(it) {
-    var keys = $.getKeys(it),
-        getDesc = $.getDesc,
-        getSymbols = $.getSymbols;
-    if (getSymbols)
-      $.each.call(getSymbols(it), function(key) {
-        if (getDesc(it, key).enumerable)
-          keys.push(key);
-      });
-    return keys;
   };
   global.define = __define;
   return module.exports;
@@ -20757,20 +20889,4 @@ System.registerDynamic("npm:lodash@3.10.1", ["npm:lodash@3.10.1/index"], true, f
   return module.exports;
 });
 
-System.register("accountingGame/accountingGame.css!systemjs_plugins/css.js", [], function (_export) {
-  "use strict";
-
-  return {
-    setters: [],
-    execute: function () {
-      _export("default", { "bgVideoWrapper": "_accountingGame_accountingGame__bgVideoWrapper _accountingGame_helpers__fill" });
-    }
-  };
-});
-
-// Fake file definitions
-System.register('accountingGame/accountingGame.css!systemjs_plugins/css.js', [], function() { return { setters: [], execute: function() {}}});
-// Inject all the css
-(function(c){if (typeof document == 'undefined') return; var d=document,a='appendChild',i='styleSheet',s=d.createElement('style');s.type='text/css';d.getElementsByTagName('head')[0][a](s);s[i]?s[i].cssText=c:s[a](d.createTextNode(c));})
-('/* Helpers */\n\n._accountingGame_helpers__fill {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n}\n\n/**/\n\n._accountingGame_accountingGame__bgVideoWrapper {\n  z-index: -99;\n  overflow: hidden;\n}\n');
 //# sourceMappingURL=bundle.vendor.js.map

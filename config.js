@@ -2,24 +2,24 @@ System.config({
   defaultJSExtensions: true,
   transpiler: "babel",
   babelOptions: {
-    "stage": 0,
     "optional": [
       "runtime",
       "optimisation.modules.system"
-    ]
+    ],
+    "stage": 0
   },
   paths: {
-    "~/*": "accountingGame/*.js",
     "github:*": "jspm_packages/github/*",
-    "npm:*": "jspm_packages/npm/*"
+    "npm:*": "jspm_packages/npm/*",
+    "~/*": "accountingGame/*.js"
   },
   bundles: {
     "bundle.app.js": [
       "index.js",
       "accountingGame.js",
       "~/accountingGame.module",
-      "~/scenes/aboutScene/aboutScene.module",
       "~/scenes/endScene/endScene.module",
+      "~/scenes/aboutScene/aboutScene.module",
       "~/scenes/inGameScene/inGameScene.module",
       "~/scenes/menuScene/menuScene.module",
       "~/scenes/inGameScene/FRAMES",
@@ -28,12 +28,25 @@ System.config({
       "accountingGame/scenes/endScene/endScene.html!github:systemjs/plugin-text@0.0.2",
       "accountingGame/scenes/inGameScene/inGameScene.html!github:systemjs/plugin-text@0.0.2",
       "accountingGame/scenes/menuScene/menuScene.html!github:systemjs/plugin-text@0.0.2",
-      "index.css!systemjs_plugins/css.js",
-      "accountingGame/accountingGame.css!systemjs_plugins/css.js"
+      "accountingGame/commons/helpers.scss!systemjs_plugins/scss.js",
+      "index.scss!systemjs_plugins/scss.js",
+      "accountingGame/scenes/endScene/endScene.scss!systemjs_plugins/scss.js",
+      "accountingGame/scenes/aboutScene/aboutScene.scss!systemjs_plugins/scss.js",
+      "accountingGame/scenes/menuScene/menuScene.scss!systemjs_plugins/scss.js",
+      "accountingGame/scenes/inGameScene/inGameScene.scss!systemjs_plugins/scss.js",
+      "accountingGame/accountingGame.scss!systemjs_plugins/scss.js"
     ],
     "bundle.vendor.js": [
-      "github:angular/bower-angular@1.4.6",
-      "github:angular/bower-angular@1.4.6/angular",
+      "npm:babel-runtime@5.8.25/core-js/object/assign",
+      "github:angular/bower-angular@1.4.7",
+      "npm:core-js@0.9.18/library/fn/object/assign",
+      "github:angular/bower-angular@1.4.7/angular",
+      "npm:core-js@0.9.18/library/modules/es6.object.assign",
+      "npm:core-js@0.9.18/library/modules/$",
+      "npm:core-js@0.9.18/library/modules/$.def",
+      "npm:core-js@0.9.18/library/modules/$.assign",
+      "npm:core-js@0.9.18/library/modules/$.fw",
+      "npm:core-js@0.9.18/library/modules/$.enum-keys",
       "npm:lodash@3.10.1",
       "npm:lodash@3.10.1/index",
       "npm:babel-runtime@5.8.25/core-js/symbol",
@@ -43,61 +56,59 @@ System.config({
       "npm:core-js@0.9.18/library/fn/symbol/index",
       "npm:process@0.10.1",
       "npm:core-js@0.9.18/library/modules/es6.symbol",
-      "npm:core-js@0.9.18/library/modules/$",
       "npm:process@0.10.1/browser",
       "npm:core-js@0.9.18/library/modules/$.cof",
       "npm:core-js@0.9.18/library/modules/$.uid",
       "npm:core-js@0.9.18/library/modules/$.shared",
-      "npm:core-js@0.9.18/library/modules/$.def",
       "npm:core-js@0.9.18/library/modules/$.redef",
       "npm:core-js@0.9.18/library/modules/$.keyof",
-      "npm:core-js@0.9.18/library/modules/$.enum-keys",
       "npm:core-js@0.9.18/library/modules/$.assert",
       "npm:core-js@0.9.18/library/modules/$.get-names",
       "npm:core-js@0.9.18/library/modules/$.wks",
-      "npm:core-js@0.9.18/library/modules/$.fw",
-      "github:angular/bower-angular-animate@1.4.6",
-      "github:angular-ui/ui-router@0.2.15",
+      "github:angular/bower-angular-animate@1.4.7",
       "github:brandly/angular-youtube-embed@1.1.0",
       "npm:babel-runtime@5.8.25/core-js/object/define-properties",
+      "github:angular-ui/ui-router@0.2.15",
+      "github:angular/bower-angular-animate@1.4.7/angular-animate",
       "github:brandly/angular-youtube-embed@1.1.0/src/angular-youtube-embed",
-      "github:angular-ui/ui-router@0.2.15/angular-ui-router",
-      "github:angular/bower-angular-animate@1.4.6/angular-animate",
       "npm:core-js@0.9.18/library/fn/object/define-properties",
-      "accountingGame/accountingGame.css!systemjs_plugins/css.js"
+      "github:angular-ui/ui-router@0.2.15/angular-ui-router"
     ]
   },
 
   map: {
-    "angular": "github:angular/bower-angular@1.4.6",
-    "angular-animate": "github:angular/bower-angular-animate@1.4.6",
+    "angular": "github:angular/bower-angular@1.4.7",
+    "angular-animate": "github:angular/bower-angular-animate@1.4.7",
     "angular-ui-router": "github:angular-ui/ui-router@0.2.15",
     "angular-youtube-embed": "github:brandly/angular-youtube-embed@1.1.0",
     "babel": "npm:babel-core@5.8.25",
     "babel-runtime": "npm:babel-runtime@5.8.25",
     "core-js": "npm:core-js@0.9.18",
-    "css": "systemjs_plugins/css",
-    "jspm-loader-css": "npm:jspm-loader-css@1.0.0",
+    "css": "systemjs_plugins/scss",
+    "jspm-loader-css": "npm:jspm-loader-css@dev",
     "lodash": "npm:lodash@3.10.1",
     "postcss-calc": "npm:postcss-calc@4.1.0",
     "postcss-css-variables": "npm:postcss-css-variables@0.4.0",
+    "postcss-inline-comment": "npm:postcss-inline-comment@1.0.5",
+    "postcss-nested": "npm:postcss-nested@0.3.2",
+    "scss": "systemjs_plugins/scss",
     "text": "github:systemjs/plugin-text@0.0.2",
     "videogular": "github:2fdevs/bower-videogular@1.2.8",
     "github:2fdevs/bower-videogular@1.2.8": {
-      "angular": "github:angular/bower-angular@1.4.6",
-      "angular-sanitize": "github:angular/bower-angular-sanitize@1.4.6"
+      "angular": "github:angular/bower-angular@1.4.7",
+      "angular-sanitize": "github:angular/bower-angular-sanitize@1.4.7"
     },
     "github:angular-ui/ui-router@0.2.15": {
-      "angular": "github:angular/bower-angular@1.4.6"
+      "angular": "github:angular/bower-angular@1.4.7"
     },
-    "github:angular/bower-angular-animate@1.4.6": {
-      "angular": "github:angular/bower-angular@1.4.6"
+    "github:angular/bower-angular-animate@1.4.7": {
+      "angular": "github:angular/bower-angular@1.4.7"
     },
-    "github:angular/bower-angular-sanitize@1.4.6": {
-      "angular": "github:angular/bower-angular@1.4.6"
+    "github:angular/bower-angular-sanitize@1.4.7": {
+      "angular": "github:angular/bower-angular@1.4.7"
     },
     "github:brandly/angular-youtube-embed@1.1.0": {
-      "angular": "github:angular/bower-angular@1.4.6"
+      "angular": "github:angular/bower-angular@1.4.7"
     },
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
@@ -168,7 +179,7 @@ System.config({
     "npm:js-base64@2.1.9": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
     },
-    "npm:jspm-loader-css@1.0.0": {
+    "npm:jspm-loader-css@dev": {
       "css-modules-loader-core": "npm:css-modules-loader-core@0.0.12",
       "debounce": "npm:debounce@1.0.0",
       "path": "npm:path@0.12.7",
@@ -194,6 +205,9 @@ System.config({
       "extend": "npm:extend@2.0.1",
       "postcss": "npm:postcss@4.1.16"
     },
+    "npm:postcss-inline-comment@1.0.5": {
+      "postcss": "npm:postcss@4.1.16"
+    },
     "npm:postcss-modules-extract-imports@0.0.5": {
       "postcss": "npm:postcss@4.1.16",
       "process": "github:jspm/nodelibs-process@0.1.1"
@@ -204,6 +218,10 @@ System.config({
     },
     "npm:postcss-modules-scope@0.0.8": {
       "css-selector-tokenizer": "npm:css-selector-tokenizer@0.5.4",
+      "postcss": "npm:postcss@4.1.16",
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:postcss-nested@0.3.2": {
       "postcss": "npm:postcss@4.1.16",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },

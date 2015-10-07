@@ -28,9 +28,9 @@ function EndController($state, StateHandler){
 
   end.style = endSceneStyle;
 
-  // if (!_.isNumber(StateHandler.score)){
-  //   $state.go('menu');
-  // }
+  if (!_.isNumber(StateHandler.score)){
+    $state.go('menu');
+  }
 
   end.score = StateHandler.score;
   StateHandler.score = null;

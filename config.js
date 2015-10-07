@@ -22,12 +22,14 @@ System.config({
     "babel": "npm:babel-core@5.8.25",
     "babel-runtime": "npm:babel-runtime@5.8.25",
     "core-js": "npm:core-js@0.9.18",
-    "jspm-loader-css": "npm:jspm-loader-css@1.0.0",
+    "css": "systemjs_plugins/scss",
+    "jspm-loader-css": "npm:jspm-loader-css@dev",
     "lodash": "npm:lodash@3.10.1",
     "postcss-calc": "npm:postcss-calc@4.1.0",
     "postcss-css-variables": "npm:postcss-css-variables@0.4.0",
     "postcss-inline-comment": "npm:postcss-inline-comment@1.0.5",
     "postcss-nested": "npm:postcss-nested@0.3.2",
+    "scss": "systemjs_plugins/scss",
     "text": "github:systemjs/plugin-text@0.0.2",
     "videogular": "github:2fdevs/bower-videogular@1.2.8",
     "github:2fdevs/bower-videogular@1.2.8": {
@@ -115,7 +117,7 @@ System.config({
     "npm:js-base64@2.1.9": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
     },
-    "npm:jspm-loader-css@1.0.0": {
+    "npm:jspm-loader-css@dev": {
       "css-modules-loader-core": "npm:css-modules-loader-core@0.0.12",
       "debounce": "npm:debounce@1.0.0",
       "path": "npm:path@0.12.7",
@@ -192,18 +194,5 @@ System.config({
       "inherits": "npm:inherits@2.0.1",
       "process": "github:jspm/nodelibs-process@0.1.1"
     }
-  }
-});
-
-System.config({
-  babelOptions: {
-    "stage": 0
-  },
-  paths: {
-    "~/*": "accountingGame/*.js"
-  },
-
-  map: {
-    "scss": "systemjs_plugins/scss"
   }
 });
